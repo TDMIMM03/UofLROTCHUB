@@ -1,0 +1,2880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UofL Cardinal Battalion - ROTC Cadet Digital Hub</title>
+    <!-- Font Awesome for military & UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --uofl-red: #AD0000;
+            --uofl-red-hover: #8A0000;
+            --uofl-red-bright: #D00000;
+            --uofl-black: #111111;
+            --uofl-dark-gray: #222222;
+            --uofl-gold: #FFC72C;
+            --uofl-gold-dark: #D4A017;
+            --light-bg: #F4F5F7;
+            --card-bg: #FFFFFF;
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+            --border-color: #E5E7EB;
+            --success-green: #15803D;
+            --error-red: #B91C1C;
+            --accent-blue: #1E3A8A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--uofl-black);
+            color: #FFFFFF;
+            padding: 26px 20px;
+            border-bottom: 5px solid var(--uofl-red);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            position: relative;
+            text-align: center;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-title {
+            text-align: center;
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            color: #FFFFFF;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .header-title h1 span {
+            color: var(--uofl-red-bright);
+        }
+
+        .header-title p {
+            font-size: 0.95rem;
+            color: #D1D5DB;
+            font-weight: 500;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1100px;
+            margin: 25px auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: 2.1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            color: var(--uofl-black);
+            margin-bottom: 14px;
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--uofl-red);
+        }
+
+        /* Search & Filter Controls */
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 11px 14px 11px 38px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--uofl-red);
+            box-shadow: 0 0 0 3px rgba(173,0,0,0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Category Filter Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            padding: 7px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--uofl-red);
+            color: #FFFFFF;
+            border-color: var(--uofl-red);
+        }
+
+        /* Resources List */
+        .resource-item {
+            border-left: 4px solid var(--uofl-red);
+            background: #FAFAFA;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .resource-item.featured {
+            border-left: 5px solid var(--uofl-gold);
+            background: #FFFDF5;
+        }
+
+        .resource-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 3px 10px rgba(173,0,0,0.08);
+            background: #FFFFFF;
+            border-left-color: var(--uofl-black);
+        }
+
+        .resource-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .resource-item h3 {
+            font-size: 1.02rem;
+            color: var(--uofl-black);
+            margin-bottom: 4px;
+        }
+
+        .resource-item p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .resource-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .resource-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--uofl-red);
+            background: #FEE2E2;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .resource-tag.gold-tag {
+            color: #854D0E;
+            background: #FEF08A;
+        }
+
+        .resource-action {
+            font-size: 0.78rem;
+            color: var(--uofl-red);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .resource-item:hover .resource-action {
+            color: var(--uofl-black);
+        }
+
+        /* Interactive Tools Section */
+        .tool-box {
+            background: #F8F9FA;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tool-box h3 {
+            font-size: 0.95rem;
+            color: var(--uofl-black);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pace-calc-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .calc-result {
+            background: var(--uofl-black);
+            color: #FFFFFF;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-bottom: 3px solid var(--uofl-red);
+        }
+
+        /* Form Controls */
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        textarea, select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus, select:focus, input[type="number"]:focus {
+            border-color: var(--uofl-red);
+        }
+
+        button.btn-submit {
+            background-color: var(--uofl-red);
+            color: #FFFFFF;
+            border: none;
+            padding: 11px 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(173,0,0,0.3);
+        }
+
+        button.btn-submit:hover {
+            background-color: var(--uofl-red-hover);
+            color: #FFFFFF;
+        }
+
+        /* Q&A List */
+        .qa-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            background: #FFFFFF;
+        }
+
+        .qa-question {
+            font-weight: 700;
+            font-size: 0.93rem;
+            color: var(--uofl-black);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .qa-question i {
+            color: var(--uofl-red);
+            margin-top: 3px;
+        }
+
+        .qa-answer {
+            font-size: 0.88rem;
+            color: #333333;
+            background-color: #F9FAFB;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--uofl-red);
+            line-height: 1.5;
+        }
+
+        .qa-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .privacy-notice {
+            font-size: 0.78rem;
+            color: #555;
+            background: #FFFBEB;
+            border: 1px solid #FDE68A;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .privacy-notice i {
+            color: #D97706;
+            margin-top: 2px;
+        }
+
+        .alert-success {
+            display: none;
+            background-color: #DCFCE7;
+            color: var(--success-green);
+            border: 1px solid #86EFAC;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Modal Overlay for Detailed Guides */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Nested modals opened from an event popup sit above the event popup. */
+        #packingChecklist, #landNavModule, #cstModule {
+            z-index: 1100;
+        }
+
+        #guideModal {
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #FFFFFF;
+            border-radius: 10px;
+            max-width: 880px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--light-bg);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.35rem;
+            color: var(--uofl-black);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0 8px;
+        }
+
+        .close-modal:hover {
+            color: var(--uofl-black);
+        }
+
+        .modal-body {
+            font-size: 0.93rem;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .modal-body h4 {
+            color: var(--uofl-red);
+            margin: 18px 0 6px 0;
+            font-size: 1.05rem;
+        }
+
+        .modal-body ul, .modal-body ol {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .modal-body li {
+            margin-bottom: 4px;
+        }
+
+        .modal-body code {
+            background: #F3F4F6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--uofl-black);
+        }
+
+        /* Sub-navigation tabs inside Modules */
+        .module-subtabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 18px;
+            padding-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .subtab-btn {
+            background: none;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .subtab-btn.active {
+            background: var(--uofl-red);
+            color: #FFFFFF;
+        }
+
+        /* Policy Memo Tables */
+        .memo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 18px 0;
+            font-size: 0.85rem;
+        }
+
+        .memo-table th {
+            background: var(--uofl-black);
+            color: #FFFFFF;
+            text-align: left;
+            padding: 8px 12px;
+            font-weight: 700;
+        }
+
+        .memo-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+            background: #FAFAFA;
+        }
+
+        .memo-table tr:nth-child(even) td {
+            background: #F3F4F6;
+        }
+
+        .memo-badge-cat {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+        }
+
+        .cat-phys { background: #DBEAFE; color: #1E40AF; }
+        .cat-milt { background: #FEF3C7; color: #92400E; }
+        .cat-lead { background: #DCFCE7; color: #166534; }
+
+        /* RECONDO Requirements Card Layout */
+        .recondo-box {
+            background: #FFFDF5;
+            border: 2px solid var(--uofl-gold);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 14px 0;
+        }
+
+        .recondo-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #FDE68A;
+            padding-bottom: 8px;
+        }
+
+        .recondo-header i {
+            font-size: 2rem;
+            color: var(--uofl-gold-dark);
+        }
+
+        .recondo-header h4 {
+            margin: 0;
+            color: var(--uofl-black);
+            font-size: 1.15rem;
+        }
+
+        .recondo-list {
+            list-style: none;
+            padding-left: 0 !important;
+        }
+
+        .recondo-list li {
+            padding: 6px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            border-bottom: 1px dashed #FEF08A;
+        }
+
+        .recondo-list li i {
+            color: var(--success-green);
+            margin-top: 3px;
+        }
+
+        /* CST Calc Grid */
+        .cst-calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            background: #F8FAFC;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 14px;
+        }
+
+        .cst-calc-grid label {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .cst-calc-grid select, .cst-calc-grid input {
+            padding: 8px;
+            margin-bottom: 0;
+        }
+
+        /* Map Colors Grid */
+        .map-colors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px;
+            margin: 12px 0 18px 0;
+        }
+
+        .color-card {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #FAFAFA;
+        }
+
+        .color-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            border: 1px solid rgba(0,0,0,0.2);
+            margin-top: 2px;
+        }
+
+        .color-info h6 {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--uofl-black);
+            margin-bottom: 2px;
+        }
+
+        .color-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        /* SVG Diagram Styles */
+        .svg-diagram-card {
+            background: #F8FAFC;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .svg-diagram-card h5 {
+            font-size: 0.95rem;
+            color: var(--uofl-black);
+            margin-bottom: 8px;
+        }
+
+        /* Hand Method Guide Card */
+        .hand-guide-box {
+            background: #FFFBEB;
+            border: 2px dashed var(--uofl-gold-dark);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 14px 0;
+        }
+
+        /* Slope Types Grid */
+        .slope-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .slope-card {
+            background: #FAFAFA;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .slope-card h6 {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--uofl-black);
+            margin-bottom: 4px;
+        }
+
+        .slope-card p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Expanded Terrain Grid */
+        .terrain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .terrain-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .terrain-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 6px;
+        }
+
+        .terrain-badge.major {
+            background: #FEE2E2;
+            color: var(--uofl-red);
+        }
+
+        .terrain-badge.minor {
+            background: #FEF08A;
+            color: #854D0E;
+        }
+
+        .terrain-badge.supplementary {
+            background: #E0E7FF;
+            color: #3730A3;
+        }
+
+        .terrain-card h6 {
+            font-size: 0.95rem;
+            color: var(--uofl-black);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .terrain-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+            text-align: left;
+        }
+
+        .terrain-memory {
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--uofl-black);
+            text-align: left;
+        }
+
+        /* Two Column Instruction Layout */
+        .two-col-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 12px 0;
+        }
+
+        @media (max-width: 650px) {
+            .two-col-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .method-card {
+            background: #F9FAFB;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .method-card h5 {
+            font-size: 0.98rem;
+            color: var(--uofl-red);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Quiz UI Styles */
+        .quiz-container {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        .quiz-question-box {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .quiz-question-title {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: var(--uofl-black);
+            margin-bottom: 10px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-option {
+            background: #F8FAFC;
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--uofl-red);
+            background: #FFF5F5;
+        }
+
+        .quiz-option.selected {
+            border-color: var(--uofl-red);
+            background: #FEE2E2;
+            font-weight: 600;
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success-green);
+            background: #DCFCE7;
+            color: var(--success-green);
+            font-weight: 700;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--error-red);
+            background: #FEE2E2;
+            color: var(--error-red);
+        }
+
+        .quiz-explanation {
+            display: none;
+            margin-top: 8px;
+            padding: 10px;
+            background: #F1F5F9;
+            border-left: 3px solid var(--uofl-red);
+            border-radius: 4px;
+            font-size: 0.83rem;
+            color: #334155;
+        }
+
+        .quiz-score-banner {
+            display: none;
+            background: var(--uofl-black);
+            color: var(--uofl-gold);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Quick Acronym Grid */
+        .acronym-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .acronym-card {
+            background: #F9FAFB;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .acronym-card strong {
+            color: var(--uofl-black);
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .acronym-card span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Dashboard redesign --- */
+        .dashboard { max-width:1100px; margin:28px auto 10px; padding:0 15px; }
+        .dashboard-hero { background:linear-gradient(135deg,#111 0%,#242424 72%,#3a0000 100%); color:#fff; border-radius:16px; padding:30px; box-shadow:0 8px 24px rgba(0,0,0,.12); border-left:6px solid var(--uofl-red); }
+        .dashboard-hero .eyebrow { text-transform:uppercase; letter-spacing:1.2px; font-size:.72rem; font-weight:800; color:#d1d5db; margin-bottom:7px; }
+        .dashboard-hero h2 { font-size:2rem; margin:0 0 7px; color:#fff; }
+        .dashboard-hero p { color:#d1d5db; max-width:680px; margin:0; }
+        .dashboard-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+        .dash-card { background:#fff; border:1px solid var(--border-color); border-radius:13px; padding:18px; box-shadow:0 3px 12px rgba(0,0,0,.05); cursor:pointer; transition:.18s ease; }
+        .dash-card:hover { transform:translateY(-2px); box-shadow:0 7px 18px rgba(0,0,0,.09); border-color:#d1d5db; }
+        .dash-card .icon { width:40px; height:40px; border-radius:10px; background:#f7e8e8; color:var(--uofl-red); display:flex; align-items:center; justify-content:center; margin-bottom:12px; font-size:1.05rem; }
+        .dash-card h3 { margin:0 0 4px; font-size:1rem; }
+        .dash-card p { margin:0; color:var(--text-muted); font-size:.82rem; line-height:1.45; }
+        .ftx-card { margin-top:18px; background:#fff; border:1px solid var(--border-color); border-radius:13px; padding:20px; box-shadow:0 3px 12px rgba(0,0,0,.04); }
+        .ftx-top { display:flex; justify-content:space-between; align-items:flex-start; gap:15px; }
+        .ftx-label { color:var(--uofl-red); font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.8px; }
+        .ftx-card h3 { margin:3px 0 4px; font-size:1.25rem; }
+        .ftx-meta { color:var(--text-muted); font-size:.84rem; }
+        .ftx-pills { display:flex; flex-wrap:wrap; gap:7px; margin:14px 0; }
+        .ftx-pill { background:#f4f5f7; border:1px solid var(--border-color); border-radius:20px; padding:5px 10px; font-size:.75rem; font-weight:650; }
+        .ftx-links { display:flex; gap:8px; flex-wrap:wrap; }
+        .dash-btn { border:0; border-radius:7px; padding:9px 13px; background:var(--uofl-red); color:#fff; font-weight:700; cursor:pointer; font-size:.78rem; }
+        .dash-btn.secondary { background:#f4f5f7; color:var(--text-dark); border:1px solid var(--border-color); }
+        .resource-details { max-width:1100px; margin:18px auto 0; padding:0 15px; }
+        .resource-details summary { cursor:pointer; list-style:none; background:#fff; border:1px solid var(--border-color); border-radius:11px; padding:15px 18px; font-weight:750; display:flex; align-items:center; justify-content:space-between; }
+        .resource-details summary::-webkit-details-marker { display:none; }
+        .resource-details[open] summary { border-radius:11px 11px 0 0; border-bottom-color:#eee; }
+        .resource-details .container { margin-top:0; }
+        .packing-progress { background:#f4f5f7; border-radius:999px; height:9px; overflow:hidden; margin:8px 0 5px; }
+        .packing-progress-bar { height:100%; background:var(--uofl-red); width:0; transition:width .2s; }
+        .packing-count { font-size:.78rem; color:var(--text-muted); }
+        .packing-section-title { margin:18px 0 8px; font-size:.9rem; text-transform:uppercase; letter-spacing:.6px; color:var(--uofl-red); }
+        .packing-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+        .packing-item { display:flex; align-items:center; gap:9px; padding:9px 10px; border:1px solid var(--border-color); border-radius:8px; font-size:.82rem; cursor:pointer; background:#fff; }
+        .packing-item input { accent-color:var(--uofl-red); }
+        .packing-item.checked { background:#f7faf7; text-decoration:line-through; color:#6b7280; }
+        .packing-note { font-size:.75rem; color:var(--text-muted); margin-top:12px; }
+        @media(max-width:700px){ .dashboard-actions{grid-template-columns:1fr;} .ftx-top{flex-direction:column;} .packing-grid{grid-template-columns:1fr;} }
+
+    
+        .aft-calculator { margin-top:20px; padding:18px; background:#f7f8fa; border:1px solid var(--border-color); border-radius:12px; }
+        .aft-calc-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:14px; }
+        .aft-calc-grid label { font-size:.78rem; font-weight:700; color:var(--text-dark); }
+        .aft-calc-grid input { display:block; width:100%; margin-top:5px; padding:9px 10px; border:1px solid var(--border-color); border-radius:7px; background:#fff; box-sizing:border-box; }
+        .aft-calc-result { margin-top:14px; padding:12px 14px; background:#fff; border-left:4px solid var(--uofl-red); border-radius:7px; line-height:1.5; }
+        .aft-note { margin:12px 0 0; font-size:.72rem; color:var(--text-muted); line-height:1.4; }
+        .aft-overview { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin:12px 0 16px; }
+        .aft-overview > div { background:#f7f8fa; border:1px solid var(--border-color); border-radius:9px; padding:10px; }
+        .aft-overview strong,.aft-overview span { display:block; }
+        .aft-overview strong { font-size:.78rem; }
+        .aft-overview span { font-size:.73rem; color:var(--text-muted); margin-top:3px; }
+        .aft-source-note { font-size:.82rem; color:var(--text-muted); }
+        .aft-event-tabs { display:flex; flex-wrap:wrap; gap:0; margin:18px 0 0; border-bottom:1px solid var(--border-color); }
+        .aft-event-tab { border:0; border-bottom:3px solid transparent; background:transparent; padding:11px 14px; cursor:pointer; text-align:center; min-height:0; color:var(--text-muted); font-size:.76rem; font-weight:750; transition:.15s ease; }
+        .aft-event-tab:hover { color:var(--text-dark); background:#f7f8fa; }
+        .aft-event-tab strong { display:inline-block; color:inherit; font-size:.68rem; margin-right:5px; }
+        .aft-event-tab span { display:inline; font-weight:750; font-size:.76rem; margin:0; }
+        .aft-event-tab.active { border-bottom-color:var(--uofl-red); color:var(--uofl-red); background:#fff; }
+        .aft-tab-panel { padding-top:15px; }
+        .aft-nav-note { font-size:.72rem; color:var(--text-muted); margin:8px 0 0; }
+        .aft-event-detail { border:1px solid var(--border-color); border-radius:10px; padding:13px; background:#fff; }
+        .aft-event-detail > div { display:flex; gap:12px; align-items:flex-start; }
+        .aft-detail-number { display:inline-flex; width:30px; height:30px; border-radius:50%; align-items:center; justify-content:center; background:var(--uofl-red); color:#fff; font-size:.72rem; font-weight:800; flex:none; }
+        .aft-event-detail h4 { margin:0 0 3px; }
+        .aft-event-detail p { margin:0; color:var(--text-muted); font-size:.8rem; }
+        .aft-profile-grid,.aft-input-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:11px; margin-top:14px; }
+        .aft-input-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+        .aft-profile-grid label,.aft-input-grid label { font-size:.75rem; font-weight:700; }
+        .aft-profile-grid input,.aft-profile-grid select,.aft-input-grid input { display:block; width:100%; margin-top:5px; padding:9px 10px; border:1px solid var(--border-color); border-radius:7px; background:#fff; box-sizing:border-box; }
+        .aft-result-top { display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:1rem; }
+        .aft-result-top span { padding:4px 9px; border-radius:999px; background:#f0f2f4; font-size:.72rem; font-weight:800; }
+        .aft-result-sub { font-size:.73rem; color:var(--text-muted); margin-top:4px; }
+        .aft-score-rows { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-top:11px; }
+        .aft-score-rows > div { background:#f7f8fa; border-radius:8px; padding:8px; }
+        .aft-score-rows span,.aft-score-rows strong,.aft-score-rows small { display:block; }
+        .aft-score-rows span { font-size:.68rem; color:var(--text-muted); }
+        .aft-score-rows strong { font-size:.9rem; margin:2px 0; }
+        .aft-score-rows small { font-size:.62rem; color:var(--text-muted); line-height:1.25; }
+        .aft-score-table { margin-top:14px; overflow-x:auto; }
+        .aft-table-title { font-size:.76rem; font-weight:800; margin-bottom:6px; }
+        .aft-score-table table { width:100%; border-collapse:collapse; font-size:.7rem; background:#fff; }
+        .aft-score-table th,.aft-score-table td { border:1px solid var(--border-color); padding:6px; text-align:center; white-space:nowrap; }
+        .aft-score-table th { background:#f4f5f7; }
+        .glossary-search { position:relative; margin-bottom:8px; }
+        .glossary-search i { position:absolute; left:12px; top:11px; color:var(--text-muted); }
+        .glossary-search input { width:100%; box-sizing:border-box; padding:10px 12px 10px 35px; border:1px solid var(--border-color); border-radius:8px; }
+        .glossary-count { color:var(--text-muted); font-size:.75rem; margin:7px 0 12px; }
+        .glossary-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; max-height:55vh; overflow:auto; padding-right:3px; }
+        .glossary-card { border:1px solid var(--border-color); border-radius:9px; padding:10px; background:#fff; }
+        .glossary-card > div { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+        .glossary-card strong { color:var(--uofl-red); }
+        .glossary-card span { font-size:.72rem; font-weight:700; color:var(--text-dark); }
+        .glossary-card p { font-size:.76rem; line-height:1.4; color:var(--text-muted); margin:5px 0 0; }
+        @media(max-width:850px){ .aft-event-tabs{grid-template-columns:repeat(3,1fr);} .aft-input-grid{grid-template-columns:repeat(2,1fr);} .aft-score-rows{grid-template-columns:repeat(3,1fr);} }
+        @media(max-width:700px){ .aft-overview{grid-template-columns:repeat(2,1fr);} .aft-profile-grid,.aft-input-grid{grid-template-columns:1fr;} .aft-event-tabs{grid-template-columns:repeat(2,1fr);} .aft-score-rows{grid-template-columns:repeat(2,1fr);} .glossary-grid{grid-template-columns:1fr;} }
+
+        @media(max-width:700px){ .aft-calc-grid{grid-template-columns:1fr;} }
+
+        .event-clickable{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;}
+        .event-clickable:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.10);}
+        .event-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+        .event-info-grid>div,.event-callout{background:#f7f8fa;border:1px solid var(--border-color);border-radius:9px;padding:12px;}
+        .event-info-grid p{margin:4px 0 0;color:var(--text-muted);font-size:.82rem;}
+        .ftx-modal-actions{display:flex;flex-wrap:wrap;gap:8px;}
+        .event-callout{display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:.82rem;}
+        .event-callout i{color:var(--uofl-red);margin-top:3px;}
+        .aft-event-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+        .aft-event-card{display:flex;gap:12px;padding:13px;border:1px solid var(--border-color);border-radius:9px;background:#fff;}
+        .aft-event-card h4{margin:0 0 4px;font-size:.9rem;}
+        .aft-event-card p{margin:0;color:var(--text-muted);font-size:.78rem;line-height:1.4;}
+        .event-direction{display:inline-block;margin-top:7px;font-size:.72rem;font-weight:700;color:var(--uofl-red);}
+        @media(max-width:700px){.event-info-grid,.aft-event-cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="header-title">
+                <h1>UofL <span>Cardinal Battalion</span> Hub</h1>
+                <p>University of Louisville Army ROTC • Cadet Guide & Resource Platform</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Clean dashboard: the first stop for cadets -->
+    <section class="dashboard">
+        <div class="dashboard-hero">
+            <div class="eyebrow">Cardinal Battalion • Cadet First Stop</div>
+            <h2>ROTC Cadet Hub</h2>
+            <p>Find what you need, prepare for training, learn at your own pace, and ask questions when you still need help.</p>
+        </div>
+
+        <div class="dashboard-actions">
+            <div class="dash-card" onclick="document.getElementById('ftx-event').scrollIntoView({behavior:'smooth'})">
+                <div class="icon"><i class="fa-solid fa-calendar-days"></i></div>
+                <h3>What's Coming Up?</h3>
+                <p>See upcoming training and what you need to know before you go.</p>
+            </div>
+            <div class="dash-card" onclick="openPrepareSection()">
+                <div class="icon"><i class="fa-solid fa-list-check"></i></div>
+                <h3>Prepare</h3>
+                <p>Use interactive checklists and preparation tools instead of searching through documents.</p>
+            </div>
+            <div class="dash-card" onclick="event.stopPropagation(); openGlossary()">
+                <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <h3>Learn</h3>
+                <p>Search ROTC terminology, acronyms, field skills, and other guides.</p>
+            </div>
+        </div>
+
+        <div class="major-events-heading" style="margin-top:24px; margin-bottom:10px;">
+            <div class="eyebrow">Major Upcoming Events</div>
+            <h3 style="margin:0;">What’s Coming Up</h3>
+        </div>
+
+        <div class="ftx-card event-clickable" id="ftx-event" onclick="openFTXModal()" style="cursor:pointer;">
+            <div class="ftx-top">
+                <div>
+                    <div class="ftx-label">Next Major Training Event</div>
+                    <h3>Fall FTX</h3>
+                    <div class="ftx-meta"><strong>September 18–20, 2026</strong></div>
+                </div>
+                <div class="ftx-meta"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <div class="ftx-card event-clickable" id="aft-event" style="margin-top:14px; cursor:pointer;" onclick="openAFTModal()">
+            <div class="ftx-top">
+                <div>
+                    <div class="ftx-label">Major Fitness Event</div>
+                    <h3>AFT</h3>
+                    <div class="ftx-meta"><strong>October 15, 2026</strong></div>
+                </div>
+                <div class="ftx-meta"><i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Left Content Column -->
+        <main>
+            <!-- Resource Library Card -->
+            <details class="resource-details" id="resource-library">
+                <summary><span><i class="fa-solid fa-book-bookmark" style="color:var(--uofl-red); margin-right:9px;"></i> Explore All Learning Resources</span><i class="fa-solid fa-chevron-down"></i></summary>
+                <section class="card">
+                <h2><i class="fa-solid fa-book-bookmark"></i> Cadet Reference Library</h2>
+                
+                <!-- Search Bar -->
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" onkeyup="searchResources()" placeholder="Search topics, doctrine, acronyms, or guides (e.g. Land Nav, OPORD, PT)...">
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="filterCategory('all', this)"><i class="fa-solid fa-border-all"></i> All Topics</button>
+                    <button class="tab-btn" onclick="filterCategory('field', this)"><i class="fa-solid fa-compass"></i> Lab & Field Prep</button>
+                    <button class="tab-btn" onclick="filterCategory('academics', this)"><i class="fa-solid fa-graduation-cap"></i> Academics & Balance</button>
+                    <button class="tab-btn" onclick="filterCategory('basics', this)"><i class="fa-solid fa-person-military-rifle"></i> ROTC Basics</button>
+                    <button class="tab-btn" onclick="filterCategory('cst', this)"><i class="fa-solid fa-trophy"></i> CST & Growth</button>
+                </div>
+
+                <!-- Resource Cards List -->
+                <div id="resource-list">
+
+                    <!-- Resource 1: Land Nav 101 Interactive Module -->
+                    <div class="resource-item featured" data-category="field" onclick="event.stopPropagation(); openLandNavModule()">
+                        <div class="resource-item-header">
+                            <h3><i class="fa-solid fa-map-location-dot" style="color:var(--uofl-red);"></i> Land Nav 101: Interactive Masterclass & Quiz</h3>
+                        </div>
+                        <p>Complete study suite covering map colors, route measuring, Hand Method mnemonic, slope profiles, 10 terrain features (SVGs), back-azimuths, and quiz.</p>
+                        <div class="resource-footer">
+                            <span class="resource-tag gold-tag"><i class="fa-solid fa-brain"></i> Full Masterclass & Quiz</span>
+                            <span class="resource-action">Launch Interactive Guide <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Resource 2: CST Evaluations & RECONDO Masterclass -->
+                    <div class="resource-item featured" data-category="cst" onclick="openCSTModule()">
+                        <div class="resource-item-header">
+                            <h3><i class="fa-solid fa-award" style="color:var(--uofl-gold-dark);"></i> CST Evaluations, Policy Memo #20 & RECONDO Requirements</h3>
+                        </div>
+                        <p>Official Advanced Camp scoring policy breakdown (Physical 35%, Military 27%, Leadership 38%), complete RECONDO badge criteria, and interactive score calculator.</p>
+                        <div class="resource-footer">
+                            <span class="resource-tag gold-tag"><i class="fa-solid fa-calculator"></i> Memo #20 Points & RECONDO Guide</span>
+                            <span class="resource-action">Launch CST Guide <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Resource 3 -->
+                    <div class="resource-item" data-category="field" onclick="openModal('ranger-tactics')">
+                        <div class="resource-item-header">
+                            <h3>Ranger Handbook Cheat Sheet: Squad Tactics & OPORD</h3>
+                        </div>
+                        <p>Beginner guide to Individual Movement Techniques (IMTs), Wedge vs. File formations, 5-paragraph OPORDs, and Battle Drill 1 (React to Contact).</p>
+                        <div class="resource-footer">
+                            <span class="resource-tag">Ref: TC 3-21.76 Ranger Handbook</span>
+                            <span class="resource-action">Click to read full guide <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Resource 4 -->
+                    <div class="resource-item" data-category="academics" onclick="openModal('time-management')">
+                        <div class="resource-item-header">
+                            <h3>Time Blocking 101: Balancing UofL Academics & ROTC</h3>
+                        </div>
+                        <p>Practical sleep, study, and time-management strategies to balance early 0545 PT wake-ups with 15+ credit hours of college classes without burning out.</p>
+                        <div class="resource-footer">
+                            <span class="resource-tag">Ref: Cadet Success & Academic Guide</span>
+                            <span class="resource-action">Click to read full guide <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Resource 5 -->
+                    <div class="resource-item" data-category="basics" onclick="event.stopPropagation(); openModal('ftx-packing')">
+                        <div class="resource-item-header">
+                            <h3>First FTX Packing, Gear Layout & Field Mindset</h3>
+                        </div>
+                        <p>Itemized layout checklist for your assault pack and rucksack, field hygiene essentials, cold/hot weather gear prep, and mindset for your first FTX.</p>
+                        <div class="resource-footer">
+                            <span class="resource-tag">Ref: Cardinal Battalion SOP</span>
+                            <span class="resource-action">Click to read full guide <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Resource 6 -->
+                    <div class="resource-item" data-category="basics" onclick="event.stopPropagation(); openGlossary()">
+                        <div class="resource-item-header">
+                            <h3>ROTC Terminology, Acronyms & Chain of Command</h3>
+                        </div>
+                        <p>Decode military jargon (AFT, OPORD, Cadre, MSL, OML, CST) and learn proper military customs, courtesies, and chain of command etiquette.</p>
+                        <div class="resource-footer">
+                            <span class="resource-tag">Ref: Army Customs & Terminology</span>
+                            <span class="resource-action">Click to read full guide <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+                </section>
+            </details>
+
+            <!-- Q&A Board Section -->
+            <section class="card">
+                <h2><i class="fa-solid fa-comments"></i> Answered Cadet Questions</h2>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+                    Common questions submitted anonymously by cadets, directly addressed by Cardinal Battalion Cadet Leadership (MS3 & MS4).
+                </p>
+
+                <div id="qa-board">
+                    <div class="qa-empty" style="padding:18px; text-align:center; color:var(--text-muted); border:1px dashed var(--border-color); border-radius:9px;">
+                        <i class="fa-regular fa-comments" style="font-size:1.5rem; margin-bottom:7px;"></i>
+                        <div>No questions submitted yet.</div>
+                        <small>Submitted questions will appear here for the prototype.</small>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Sidebar Column -->
+        <aside>
+
+            <!-- Quick Field Tool: Pace Count Calculator -->
+            <section class="card">
+                <h2><i class="fa-solid fa-calculator"></i> Pace Count Tool</h2>
+                <div class="tool-box">
+                    <h3><i class="fa-solid fa-shoe-prints"></i> 100m Pace Calculator</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+                        Enter paces taken during your 100-meter pace course walk:
+                    </p>
+                    <div class="pace-calc-inputs">
+                        <div>
+                            <label for="paceInput">Paces (100m)</label>
+                            <input type="number" id="paceInput" placeholder="e.g. 65" oninput="calculatePace()">
+                        </div>
+                        <div>
+                            <label for="distInput">Target (Meters)</label>
+                            <input type="number" id="distInput" value="350" oninput="calculatePace()">
+                        </div>
+                    </div>
+                    <div class="calc-result" id="paceResult">
+                        Enter paces to see total needed
+                    </div>
+                </div>
+            </section>
+
+            <!-- Submit Anonymous Question Form -->
+            <section class="card" id="ask-section">
+                <h2><i class="fa-solid fa-paper-plane"></i> Ask a Question</h2>
+                <div class="privacy-notice">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <div>
+                        <strong>100% Anonymous:</strong> No names or emails collected. Ask about ROTC stress, academics, tactics, or expectations without pressure.
+                    </div>
+                </div>
+
+                <div id="success-alert" class="alert-success">
+                    <i class="fa-solid fa-circle-check"></i> Question submitted anonymously! Leadership updates this board weekly.
+                </div>
+
+                <form id="anonymous-form" onsubmit="handleFormSubmit(event)">
+                    <label for="topic">Category</label>
+                    <select id="topic" required>
+                        <option value="General ROTC">General ROTC & Acronyms</option>
+                        <option value="Academics">Academic Balance & Sleep Stress</option>
+                        <option value="Tactics & Field">Tactics, Land Nav & FTX Prep</option>
+                        <option value="PT & Fitness">PT & AFT Preparation</option>
+                    </select>
+
+                    <label for="question">Your Question / Reflection</label>
+                    <textarea id="question" rows="4" placeholder="e.g., What should I bring to my first FTX? or How do I manage study time with 0545 PT?" required></textarea>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-lock"></i> Submit Anonymously
+                    </button>
+                </form>
+            </section>
+
+            <!-- Quick Contacts / Resource Links -->
+            <section class="card">
+                <h2><i class="fa-solid fa-circle-info"></i> Support Quick Links</h2>
+                <ul style="list-style: none; font-size: 0.88rem;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-graduation-cap" style="color: var(--uofl-red);"></i>
+                        <span>UofL REACH Academic & Tutoring Services</span>
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-heart-pulse" style="color: var(--uofl-red);"></i>
+                        <span>UofL Counseling Center (Mental Health)</span>
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-dumbbell" style="color: var(--uofl-red);"></i>
+                        <span>Army Physical Readiness Training (FM 7-22)</span>
+                    </li>
+                </ul>
+            </section>
+
+        </aside>
+
+    </div>
+
+    <!-- Interactive FTX Packing Checklist -->
+    <div class="modal-overlay" id="packingChecklist" onclick="closePackingOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-list-check" style="color:var(--uofl-red)"></i> Fall FTX Packing Checklist</h2>
+                <button class="close-modal" onclick="closePackingChecklist()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--text-muted); margin-bottom:8px;"><strong>September 18–20 • TA-14, Fort Knox</strong> • Depart Black Lot at 0700</p>
+                <div class="packing-progress"><div class="packing-progress-bar" id="packingProgressBar"></div></div>
+                <div class="packing-count" id="packingCount">0 items checked</div>
+                <div id="packingListContainer"></div>
+                <p class="packing-note"><i class="fa-solid fa-circle-info"></i> Use the current official packing list if guidance changes. This checklist is a prototype convenience tool.</p>
+                <button class="dash-btn secondary" style="margin-top:12px;" onclick="resetPackingChecklist()">Reset Checklist</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive CST Dedicated Module Modal -->
+    <div class="modal-overlay" id="cstModule" onclick="closeCSTModuleOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-award" style="color:var(--uofl-gold-dark)"></i> CST Advanced Camp Evaluation Suite</h2>
+                <button class="close-modal" onclick="closeCSTModule()">&times;</button>
+            </div>
+            
+            <!-- Subtabs for CST -->
+            <div class="module-subtabs">
+                <button class="subtab-btn active" id="subtab-cst-memo" onclick="switchCSTTab('cst-memo')">
+                    <i class="fa-solid fa-file-contract"></i> Policy Memo #20 Points
+                </button>
+                <button class="subtab-btn" id="subtab-cst-recondo" onclick="switchCSTTab('cst-recondo')">
+                    <i class="fa-solid fa-shield-halved"></i> How to Earn RECONDO
+                </button>
+                <button class="subtab-btn" id="subtab-cst-calc" onclick="switchCSTTab('cst-calc')">
+                    <i class="fa-solid fa-calculator"></i> CST Score Estimator
+                </button>
+                <button class="subtab-btn" id="subtab-cst-roadmap" onclick="switchCSTTab('cst-roadmap')">
+                    <i class="fa-solid fa-timeline"></i> MS1 to MS4 Timeline
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- CST TAB 1: POLICY MEMORANDUM #20 BREAKDOWN -->
+                <div id="cst-memo-content">
+                    <h4>Advanced Camp Evaluations & Appeals Policy Memorandum #20</h4>
+                    <p>At Cadet Summer Training (Fort Knox, KY), your evaluation score is calculated across three primary categories totaling 100 Points (+5 Bonus for RECONDO):</p>
+
+                    <!-- 1. Physical Category -->
+                    <div style="margin-top:14px;">
+                        <span class="memo-badge-cat cat-phys">1. Physical Category (35% Max Weight)</span>
+                        <table class="memo-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Calculation Formula / Criteria</th>
+                                    <th>Max Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>AFT (Army Fitness Test)</strong></td>
+                                    <td>
+                                        Calculated for total AFT points above 300 (must PASS).<br>
+                                        • 300 pts = 1.0 pt (Min)<br>
+                                        • 500 pts = 15.0 pts (Max)<br>
+                                        • Formula: <code>1.0 + [0.070 x (AFT - 300)]</code><br>
+                                        • Event Failure = 0 Points
+                                    </td>
+                                    <td><strong>15 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Confidence Course</strong></td>
+                                    <td>
+                                        • 7th Passed Obstacle = 1.5 pts<br>
+                                        • Each additional obstacle = +1.5 pts<br>
+                                        • All 10 obstacles passed = 6.0 pts (Max)<br>
+                                        • Event Failure = 0 Points
+                                    </td>
+                                    <td><strong>6 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>6-Mile Foot March</strong></td>
+                                    <td>
+                                        • Complete in 120 mins or less (PASS) = 7 pts (1 pt x 7 weight)<br>
+                                        • Complete over 120 mins (FAIL) = 0 Points<br>
+                                        <em style="color:var(--uofl-red);">* Note: Must complete in <strong>under 90 minutes</strong> for RECONDO qualification.</em>
+                                    </td>
+                                    <td><strong>7 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>12-Mile Foot March</strong></td>
+                                    <td>
+                                        • Complete in time limit (PASS) = 7 pts (1 pt x 7 weight)<br>
+                                        • Event Failure = 0 Points
+                                    </td>
+                                    <td><strong>7 Pts</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 2. Military Skills Category -->
+                    <div style="margin-top:14px;">
+                        <span class="memo-badge-cat cat-milt">2. Military Skills Competence Category (27% Max Weight)</span>
+                        <table class="memo-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Calculation Formula / Criteria</th>
+                                    <th>Max Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Land Navigation Exam</strong></td>
+                                    <td>
+                                        Written Exam Pass score range (70% - 100%).<br>
+                                        • 70% Pass = 1.0 pt | 100% Pass = 6.0 pts<br>
+                                        • Formula: <code>1.0 + [0.167 x (% - 70)]</code><br>
+                                        • Exam Failure = 0 Points
+                                    </td>
+                                    <td><strong>6 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Land Navigation PE (Practical)</strong></td>
+                                    <td>
+                                        • 1st Round 5 Targets = 3.33 pts<br>
+                                        • 1st Round 6 Targets = 6.66 pts<br>
+                                        • 1st Round 7 Targets = 10.0 pts (Max)<br>
+                                        • 2nd Round Pass = 3.33 pts | Failure = 0 pts
+                                    </td>
+                                    <td><strong>10 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Warrior Skills</strong></td>
+                                    <td>
+                                        • PASS (10 of 14 events) = 2 pts (1 pt x 2 weight)<br>
+                                        • Event Failure = 0 Points
+                                    </td>
+                                    <td><strong>2 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hand Grenades</strong></td>
+                                    <td>
+                                        • PASS 2nd Class or Higher (5 of 7 stations) = 2 pts<br>
+                                        • Event Failure = 0 Points
+                                    </td>
+                                    <td><strong>2 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Basic Rifle Marksmanship (BRM)</strong></td>
+                                    <td>
+                                        Initial Qualification Attempt Points x 7 Weight:<br>
+                                        • Expert (1st attempt) = 1.0 x 7 = 7.0 pts<br>
+                                        • Sharpshooter (1st attempt) = 0.8 x 7 = 5.6 pts<br>
+                                        • Marksman (1st attempt) = 0.6 x 7 = 4.2 pts<br>
+                                        • Subsequent 2nd Attempt Qual = 2.0 pts
+                                    </td>
+                                    <td><strong>7 Pts</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 3. Leadership Category -->
+                    <div style="margin-top:14px;">
+                        <span class="memo-badge-cat cat-lead">3. Leadership Category (38% Max Weight + Bonus)</span>
+                        <table class="memo-table">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Calculation Formula / Criteria</th>
+                                    <th>Max Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Evaluated Leadership Positions (FTX)</strong></td>
+                                    <td>
+                                        Evaluated in 1st FTX (Weight 18) and 2nd FTX (Weight 18):<br>
+                                        • Excellent (E) = 1.0 (18 pts)<br>
+                                        • Proficient (P) = 0.67 (12 pts)<br>
+                                        • Capable (C) = 0.33 (6 pts)<br>
+                                        • Unsatisfactory (U) = 0 pts
+                                    </td>
+                                    <td><strong>36 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Final Peer Evaluation Average</strong></td>
+                                    <td>
+                                        Average of all peer evaluations normalized based on squad size x 2 weight.
+                                    </td>
+                                    <td><strong>2 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Second Negative SPOT Report</strong></td>
+                                    <td>
+                                        Receiving a second negative SPOT report results in a <strong>-5 Point Penalty</strong> to overall scoring.
+                                    </td>
+                                    <td><strong>-5 Pts</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="background:#FEF08A;"><strong>RECONDO BONUS POINTS</strong></td>
+                                    <td style="background:#FEF08A;">
+                                        Cadets earning the RECONDO Badge receive an automatic <strong>+5 Point BONUS</strong> added to their overall score!
+                                    </td>
+                                    <td style="background:#FEF08A;"><strong>+5 BONUS</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CST TAB 2: RECONDO REQUIREMENT CHECKLIST -->
+                <div id="cst-recondo-content" style="display:none;">
+                    <div class="recondo-box">
+                        <div class="recondo-header">
+                            <i class="fa-solid fa-award"></i>
+                            <div>
+                                <h4>The RECONDO Badge at Advanced Camp</h4>
+                                <p style="font-size:0.83rem; color:var(--text-muted); margin:0;">
+                                    RECONDO is awarded to cadets who display physical superiority and first-attempt perfection across all CST evaluations.
+                                </p>
+                            </div>
+                        </div>
+
+                        <h5 style="color:var(--uofl-black); margin:12px 0 6px 0;">RECONDO Qualification Criteria (Policy Memo #20):</h5>
+                        <ul class="recondo-list">
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>AFT Physical Fitness:</strong> Achieve a PASS and high score on initial attempt during AFT.
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>Confidence Course:</strong> Successfully pass ALL 10 obstacles on the Confidence Course on initial attempt (6.0 pts).
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>6-Mile Foot March Standard:</strong> Complete the 6-Mile Foot March in <strong>under 90 minutes</strong> (1 hr 30 mins) on initial attempt.
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>12-Mile Foot March Standard:</strong> Complete the 12-Mile Foot March within prescribed time standards (3 hours max) on initial attempt.
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>Marksmanship Excellence:</strong> Qualify as <strong>EXPERT</strong> on Basic Rifle Marksmanship (BRM) on first qualification attempt (7.0 pts).
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>Land Navigation Perfection:</strong> Pass Land Nav written exam on 1st attempt AND find ALL 7 targets on 1st round during Land Nav PE (10.0 pts).
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>First-Pass Skills:</strong> Pass Warrior Skills (10/14) and Hand Grenades (5/7) on initial attempt.
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div>
+                                    <strong>Leadership Standing:</strong> Earn "Proficient" or "Excellent" ratings in evaluated FTX leadership roles with zero negative SPOT reports.
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div style="background:#FFFFFF; border:1px solid #FDE68A; padding:10px; border-radius:6px; margin-top:12px; font-size:0.85rem;">
+                            <strong>★ Strategic Impact:</strong> Earning RECONDO grants a <strong>+5 Point BONUS</strong> under Policy Memo #20. This bonus can elevate a cadet into the top 10% nationally on the Officer Order of Merit List (OML) for Active Duty and top branch selection!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CST TAB 3: SCORE ESTIMATOR CALCULATOR -->
+                <div id="cst-calc-content" style="display:none;">
+                    <h4><i class="fa-solid fa-calculator" style="color:var(--uofl-red);"></i> Interactive CST Score Estimator</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+                        Select your projected or actual performance levels below to calculate your estimated CST Policy Memo #20 score out of 100 (+Bonus).
+                    </p>
+
+                    <div class="cst-calc-grid">
+                        <div>
+                            <label for="calc-aft">AFT Score (300-500)</label>
+                            <input type="number" id="calc-aft" value="450" min="300" max="500" oninput="calculateCSTScore()">
+                        </div>
+
+                        <div>
+                            <label for="calc-conf">Confidence Course</label>
+                            <select id="calc-conf" onchange="calculateCSTScore()">
+                                <option value="6.0">10 Obstacles (100% Pass) - 6.0 pts</option>
+                                <option value="4.5">9 Obstacles Passed - 4.5 pts</option>
+                                <option value="3.0">8 Obstacles Passed - 3.0 pts</option>
+                                <option value="1.5">7 Obstacles Passed - 1.5 pts</option>
+                                <option value="0.0">Failed (&lt;7 Obstacles) - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-marches">Foot Marches (6M & 12M)</label>
+                            <select id="calc-marches" onchange="calculateCSTScore()">
+                                <option value="14.0">PASS Both Marches (6M &lt;90m for Recondo) - 14.0 pts</option>
+                                <option value="7.0">PASS 1 March Only - 7.0 pts</option>
+                                <option value="0.0">FAIL Both Marches - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-ln-exam">Land Nav Exam (%)</label>
+                            <input type="number" id="calc-ln-exam" value="90" min="70" max="100" oninput="calculateCSTScore()">
+                        </div>
+
+                        <div>
+                            <label for="calc-ln-pe">Land Nav PE Targets</label>
+                            <select id="calc-ln-pe" onchange="calculateCSTScore()">
+                                <option value="10.0">1st Round 7 Targets (100%) - 10.0 pts</option>
+                                <option value="6.66">1st Round 6 Targets - 6.66 pts</option>
+                                <option value="3.33">1st Round 5 Targets - 3.33 pts</option>
+                                <option value="3.33">2nd Round Pass - 3.33 pts</option>
+                                <option value="0.0">FAIL PE - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-brm">BRM Qualification</label>
+                            <select id="calc-brm" onchange="calculateCSTScore()">
+                                <option value="7.0">Expert 1st Attempt - 7.0 pts</option>
+                                <option value="5.6">Sharpshooter 1st Attempt - 5.6 pts</option>
+                                <option value="4.2">Marksman 1st Attempt - 4.2 pts</option>
+                                <option value="2.0">2nd Attempt Qual - 2.0 pts</option>
+                                <option value="0.0">FAIL BRM - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-skills">Warrior Skills & Grenades</label>
+                            <select id="calc-skills" onchange="calculateCSTScore()">
+                                <option value="4.0">PASS Both Skills & Grenades - 4.0 pts</option>
+                                <option value="2.0">PASS Skills Only - 2.0 pts</option>
+                                <option value="0.0">FAIL Skills - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-lead1">1st FTX Leadership Rating</label>
+                            <select id="calc-lead1" onchange="calculateCSTScore()">
+                                <option value="18.0">Excellent (E) - 18.0 pts</option>
+                                <option value="12.0">Proficient (P) - 12.0 pts</option>
+                                <option value="6.0">Capable (C) - 6.0 pts</option>
+                                <option value="0.0">Unsatisfactory (U) - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-lead2">2nd FTX Leadership Rating</label>
+                            <select id="calc-lead2" onchange="calculateCSTScore()">
+                                <option value="18.0">Excellent (E) - 18.0 pts</option>
+                                <option value="12.0">Proficient (P) - 12.0 pts</option>
+                                <option value="6.0">Capable (C) - 6.0 pts</option>
+                                <option value="0.0">Unsatisfactory (U) - 0.0 pts</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="calc-recondo">Earned RECONDO Badge?</label>
+                            <select id="calc-recondo" onchange="calculateCSTScore()">
+                                <option value="5.0">YES (+5 BONUS Points)</option>
+                                <option value="0.0">NO (0 Bonus)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--uofl-black); color:var(--uofl-gold); padding:16px; border-radius:8px; text-align:center;">
+                        <h3 id="cstCalcTotal" style="font-size:1.4rem;">Projected CST Score: 92.9 Pts / 100 (+5 Bonus)</h3>
+                        <p id="cstCalcTier" style="font-size:0.88rem; color:#FFFFFF; margin-top:4px;">High Outstanding Performer Range (Top OML Bracket)</p>
+                    </div>
+                </div>
+
+                <!-- CST TAB 4: ROADMAP -->
+                <div id="cst-roadmap-content" style="display:none;">
+                    <h4>MS1 to MS4 ROTC Leadership Progression</h4>
+                    <p>Your journey through the Cardinal Battalion builds progressively toward commissioning as a Second Lieutenant (2LT) in the US Army.</p>
+
+                    <ul>
+                        <li><strong>MS1 Year (Foundations):</strong> Master military customs, drill & ceremony, basic land nav, and time management. Build your GPA early.</li>
+                        <li><strong>MS2 Year (Tactical Skills):</strong> Develop squad tactics awareness, map reading speed, physical fitness, and initial leadership roles.</li>
+                        <li><strong>MS3 Year (Advanced Leadership):</strong> Lead squads and platoons during labs, prepare for Advanced Camp evaluations under Memo #20, and aim for RECONDO.</li>
+                        <li><strong>CST Advanced Camp (Fort Knox, KY):</strong> 35-day evaluation testing fitness, marksmanship, land nav, tactical leadership, and resilience.</li>
+                        <li><strong>MS4 Year (Battalion Staff):</strong> Plan training, mentor junior cadets, complete branch commissioning requirements, and prepare for active/reserve service.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Land Nav 101 Dedicated Module Modal -->
+    <div class="modal-overlay" id="landNavModule" onclick="closeModuleOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-map-location-dot" style="color:var(--uofl-red)"></i> Land Navigation 101 Masterclass</h2>
+                <button class="close-modal" onclick="closeLandNavModule()">&times;</button>
+            </div>
+            
+            <!-- Subtabs for Land Nav -->
+            <div class="module-subtabs">
+                <button class="subtab-btn active" id="subtab-mapbasics" onclick="switchLandNavTab('mapbasics')">
+                    <i class="fa-solid fa-palette"></i> Colors & Grid Reading
+                </button>
+                <button class="subtab-btn" id="subtab-positioning" onclick="switchLandNavTab('positioning')">
+                    <i class="fa-solid fa-crosshairs"></i> Intersection & Resection
+                </button>
+                <button class="subtab-btn" id="subtab-route" onclick="switchLandNavTab('route')">
+                    <i class="fa-solid fa-ruler-combined"></i> Distance & Slopes
+                </button>
+                <button class="subtab-btn" id="subtab-visuals" onclick="switchLandNavTab('visuals')">
+                    <i class="fa-solid fa-mountain-sun"></i> 10 Terrain Features & Hand Trick
+                </button>
+                <button class="subtab-btn" id="subtab-quiz" onclick="switchLandNavTab('quiz')">
+                    <i class="fa-solid fa-circle-check"></i> Knowledge Quiz
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- TAB 1: COLORS & GRID READING -->
+                <div id="landnav-mapbasics-content">
+                    <h4>1. Standard Military Map Colors (TC 3-25.26)</h4>
+                    <p>On a standard 1:50,000 military topographic map, colors identify natural and man-made features:</p>
+
+                    <div class="map-colors-grid">
+                        <!-- Black -->
+                        <div class="color-card">
+                            <div class="color-swatch" style="background:#111111;"></div>
+                            <div class="color-info">
+                                <h6>Black</h6>
+                                <p>Man-made features: buildings, surveyed points, railroads, and non-dirt roads.</p>
+                            </div>
+                        </div>
+
+                        <!-- Blue -->
+                        <div class="color-card">
+                            <div class="color-swatch" style="background:#0284C7;"></div>
+                            <div class="color-info">
+                                <h6>Blue</h6>
+                                <p>Hydrography & water features: lakes, rivers, swamps, and intermittent streams.</p>
+                            </div>
+                        </div>
+
+                        <!-- Green -->
+                        <div class="color-card">
+                            <div class="color-swatch" style="background:#15803D;"></div>
+                            <div class="color-info">
+                                <h6>Green</h6>
+                                <p>Vegetation with military significance: woods, forests, orchards, and jungles.</p>
+                            </div>
+                        </div>
+
+                        <!-- Brown / Red-Brown -->
+                        <div class="color-card">
+                            <div class="color-swatch" style="background:#854D0E;"></div>
+                            <div class="color-info">
+                                <h6>Brown / Red-Brown</h6>
+                                <p>Relief features and elevation: contour lines, spot elevations, and red-light readable roads.</p>
+                            </div>
+                        </div>
+
+                        <!-- Red -->
+                        <div class="color-card">
+                            <div class="color-swatch" style="background:#D00000;"></div>
+                            <div class="color-info">
+                                <h6>Red</h6>
+                                <p>Major populated areas, main highways, and special highlight features.</p>
+                            </div>
+                        </div>
+
+                        <!-- White -->
+                        <div class="color-card">
+                            <div class="color-swatch" style="background:#FFFFFF; border:1px solid #CCC;"></div>
+                            <div class="color-info">
+                                <h6>White</h6>
+                                <p>Clear or open terrain: clearings, open fields, and areas lacking dense vegetation.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>2. Reading Grid Coordinates ("Right Then Up")</h4>
+                    <p>Always read left-to-right along the horizontal axis first (easting), then bottom-to-top along the vertical axis (northing).</p>
+
+                    <!-- SVG Diagram: Grid Reading -->
+                    <div class="svg-diagram-card">
+                        <h5>Visual: Reading "Right Then Up" in a Grid Square</h5>
+                        <svg viewBox="0 0 400 180" style="max-width: 100%; height: auto;">
+                            <!-- Grid Square Outer Box -->
+                            <rect x="50" y="20" width="140" height="140" fill="#F1F5F9" stroke="#334155" stroke-width="2"/>
+                            
+                            <!-- Grid Lines & Labels -->
+                            <text x="40" y="165" font-size="12" font-weight="bold" fill="#0F172A">12</text>
+                            <text x="185" y="165" font-size="12" font-weight="bold" fill="#0F172A">13</text>
+                            <text x="30" y="160" font-size="12" font-weight="bold" fill="#0F172A">84</text>
+                            <text x="30" y="25" font-size="12" font-weight="bold" fill="#0F172A">85</text>
+                            
+                            <!-- Arrow Right -->
+                            <line x1="50" y1="160" x2="110" y2="160" stroke="#AD0000" stroke-width="4"/>
+                            <text x="60" y="152" font-size="11" font-weight="bold" fill="#AD0000">1) RIGHT</text>
+
+                            <!-- Arrow Up -->
+                            <line x1="110" y1="160" x2="110" y2="80" stroke="#AD0000" stroke-width="4"/>
+                            <text x="115" y="120" font-size="11" font-weight="bold" fill="#AD0000">2) UP</text>
+
+                            <!-- Target Point -->
+                            <circle cx="110" cy="80" r="6" fill="#D00000" stroke="#111111" stroke-width="2"/>
+                            <text x="122" y="80" font-size="11" font-weight="bold" fill="#111111">Point 124 846</text>
+
+                            <!-- Legend Box -->
+                            <rect x="220" y="25" width="160" height="130" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+                            <text x="230" y="45" font-size="11" font-weight="bold" fill="#1E293B">Grid Precision Levels:</text>
+                            <text x="230" y="70" font-size="10" fill="#475569">• 4-Digit: 1,000m (e.g. 1284)</text>
+                            <text x="230" y="92" font-size="10" fill="#475569">• 6-Digit: 100m (e.g. 124846)</text>
+                            <text x="230" y="114" font-size="10" font-weight="bold" fill="#AD0000">• 8-Digit: 10m (e.g. 12428468)</text>
+                            <text x="230" y="136" font-size="9" fill="#64748B">CST Requires 8-Digit Accuracy!</text>
+                        </svg>
+                    </div>
+
+                    <h4>3. Compass & Back Azimuth Formulas</h4>
+                    <p>To calculate a <strong>Back Azimuth</strong> (exact opposite direction to retrace your path back):</p>
+                    <ul>
+                        <li>If your current azimuth is <strong>LESS than 180°</strong>: <code>ADD 180°</code></li>
+                        <li>If your current azimuth is <strong>GREATER than 180°</strong>: <code>SUBTRACT 180°</code></li>
+                    </ul>
+                </div>
+
+                <!-- TAB 2: INTERSECTION & RESECTION -->
+                <div id="landnav-positioning-content" style="display:none;">
+                    <h4>Locating Positions: Intersection & Resection</h4>
+                    <p>When in the field, you will often need to locate distant unknown targets or fix your own position using a compass and map.</p>
+
+                    <div class="two-col-box">
+                        <!-- Intersection Card -->
+                        <div class="method-card">
+                            <h5><i class="fa-solid fa-crosshairs"></i> 1. Intersection</h5>
+                            <p style="font-size:0.83rem; margin-bottom:8px;">
+                                <strong>Purpose:</strong> Finding the unknown grid location of a distant object (e.g., enemy bunker or distant tower) without traveling to it.
+                            </p>
+                            <ol style="font-size:0.82rem; padding-left:16px;">
+                                <li>Orient your map at <strong>Known Position A</strong>. Shoot a magnetic azimuth to the unknown object. Convert to grid azimuth.</li>
+                                <li>Draw a line along that grid azimuth on your map from Position A toward the target.</li>
+                                <li>Move to <strong>Known Position B</strong> (at least 90° angle away). Shoot a second azimuth to the same target and convert to grid azimuth.</li>
+                                <li>Draw the second azimuth line from Position B. <strong>Where the two lines intersect is the grid location of the target!</strong></li>
+                            </ol>
+                        </div>
+
+                        <!-- Resection Card -->
+                        <div class="method-card">
+                            <h5><i class="fa-solid fa-street-view"></i> 2. Resection</h5>
+                            <p style="font-size:0.83rem; margin-bottom:8px;">
+                                <strong>Purpose:</strong> Finding YOUR unknown current location when you are lost or unsure of your exact position.
+                            </p>
+                            <ol style="font-size:0.82rem; padding-left:16px;">
+                                <li>Orient your map to North. Identify 2 or 3 prominent distant landmarks on the terrain that you can also locate on your map.</li>
+                                <li>Shoot a magnetic azimuth from your position to <strong>Landmark 1</strong>. Convert to grid azimuth.</li>
+                                <li>Calculate the <strong>BACK AZIMUTH</strong> ($Azimuth \pm 180^\circ$). Draw this back azimuth line from Landmark 1 back toward yourself.</li>
+                                <li>Repeat for <strong>Landmark 2</strong>. <strong>Where these back azimuth lines intersect is YOUR current location!</strong></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- SVG Diagram: Intersection / Resection Visual -->
+                    <div class="svg-diagram-card">
+                        <h5>Visual Diagram: Resection Line Intersections</h5>
+                        <svg viewBox="0 0 400 160" style="max-width: 100%; height: auto;">
+                            <!-- Landmark 1 (Hill) -->
+                            <circle cx="80" cy="35" r="14" fill="#FEF08A" stroke="#AD0000" stroke-width="2"/>
+                            <text x="80" y="38" font-size="10" font-weight="bold" text-anchor="middle" fill="#111111">L1</text>
+                            <text x="80" y="16" font-size="10" font-weight="bold" text-anchor="middle" fill="#AD0000">Landmark 1 (Tower)</text>
+
+                            <!-- Landmark 2 (Peak) -->
+                            <circle cx="320" cy="35" r="14" fill="#FEF08A" stroke="#AD0000" stroke-width="2"/>
+                            <text x="320" y="38" font-size="10" font-weight="bold" text-anchor="middle" fill="#111111">L2</text>
+                            <text x="320" y="16" font-size="10" font-weight="bold" text-anchor="middle" fill="#AD0000">Landmark 2 (Hill Peak)</text>
+
+                            <!-- Back Azimuth Line 1 -->
+                            <line x1="80" y1="35" x2="200" y2="130" stroke="#0284C7" stroke-width="3" stroke-dasharray="4,4"/>
+                            
+                            <!-- Back Azimuth Line 2 -->
+                            <line x1="320" y1="35" x2="200" y2="130" stroke="#0284C7" stroke-width="3" stroke-dasharray="4,4"/>
+
+                            <!-- Intersection Point (YOU ARE HERE) -->
+                            <circle cx="200" cy="130" r="8" fill="#D00000" stroke="#111111" stroke-width="2"/>
+                            <text x="200" y="152" font-size="11" font-weight="bold" text-anchor="middle" fill="#D00000">★ YOU ARE HERE (Intersection)</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- TAB 3: MEASURING ROUTE DISTANCE & SLOPE PROFILES -->
+                <div id="landnav-route-content" style="display:none;">
+                    <h4>Measuring Distance Along Curved Travel Paths / Routes</h4>
+                    <p>In actual tactical operations, roads, trails, and streams bend. Measuring straight-line distance with a protractor ruler gives an inaccurate distance for curved routes.</p>
+
+                    <div class="method-card" style="margin-bottom:14px;">
+                        <h5><i class="fa-solid fa-ruler"></i> Step-by-Step Method Using a Paper Strip</h5>
+                        <ol style="font-size:0.88rem; padding-left:18px;">
+                            <li><strong>Take a straight strip of paper:</strong> Place the clean straight edge at your starting point A along the trail.</li>
+                            <li><strong>Mark start & first bend:</strong> Make a tick mark on the paper strip at Start Point A and at the first bend in the trail/road.</li>
+                            <li><strong>Pivot along bends:</strong> Pivot the paper strip at the first bend so the straight edge aligns with the next straight section of the trail. Make a tick mark at the second bend.</li>
+                            <li><strong>Repeat to Destination:</strong> Continue pivoting and marking tick marks along every curve until reaching End Point B. The distance between your Start Mark and Final Mark equals the total curved route distance.</li>
+                            <li><strong>Align with Map Scale Bar:</strong> Place your paper strip against the graphic bar scale at the bottom of your map (check whether scale is in Meters, Kilometers, or Miles). Read the distance directly.</li>
+                        </ol>
+                    </div>
+
+                    <div class="svg-diagram-card">
+                        <h5>Visual: Measuring Route Curves with Paper Strip</h5>
+                        <svg viewBox="0 0 380 90" style="max-width: 100%; height: auto;">
+                            <!-- Curved Trail Line -->
+                            <path d="M 30,45 Q 80,15 140,65 T 260,25 T 350,55" fill="none" stroke="#854D0E" stroke-width="4" stroke-dasharray="6,4"/>
+                            
+                            <!-- Start Point -->
+                            <circle cx="30" cy="45" r="5" fill="#AD0000"/>
+                            <text x="30" y="65" font-size="10" font-weight="bold" fill="#AD0000">Start A</text>
+
+                            <!-- End Point -->
+                            <circle cx="350" cy="55" r="5" fill="#AD0000"/>
+                            <text x="350" y="75" font-size="10" font-weight="bold" fill="#AD0000">End B</text>
+
+                            <!-- Paper Strip below -->
+                            <rect x="20" y="75" width="340" height="12" fill="#FEF08A" stroke="#334155" stroke-width="1"/>
+                            <line x1="30" y1="75" x2="30" y2="87" stroke="#AD0000" stroke-width="2"/>
+                            <line x1="350" y1="75" x2="350" y2="87" stroke="#AD0000" stroke-width="2"/>
+                            <text x="190" y="84" font-size="8" font-weight="bold" text-anchor="middle" fill="#111111">Paper Strip Cumulative Ticks -&gt; Compare against Bar Scale</text>
+                        </svg>
+                    </div>
+
+                    <h4>Types of Terrain Slopes (Contour Line Density)</h4>
+                    <p>Contour line spacing tells you the steepness and profile of the ground before you walk on it:</p>
+
+                    <div class="slope-grid">
+                        <div class="slope-card">
+                            <h6>Uniform Slope</h6>
+                            <p>Contour lines are evenly spaced. Ground rises at a constant steady angle.</p>
+                        </div>
+                        <div class="slope-card">
+                            <h6>Convex Slope</h6>
+                            <p>Contour lines closer at bottom, wider at top. Steep at bottom, gentle near crest.</p>
+                        </div>
+                        <div class="slope-card">
+                            <h6>Concave Slope</h6>
+                            <p>Contour lines wider at bottom, closer at top. Gentle at bottom, steep near crest.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: 10 TERRAIN FEATURES & HAND TRICK -->
+                <div id="landnav-visuals-content" style="display:none;">
+
+                    <!-- EducationConnection Hand Trick Section -->
+                    <div class="hand-guide-box">
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <i class="fa-solid fa-hand-fist" style="font-size:1.8rem; color:var(--uofl-red);"></i>
+                            <h4 style="margin:0; color:var(--uofl-black);">The "Hand Method" for Terrain Features (EducationConnection Mnemonic)</h4>
+                        </div>
+                        <p style="font-size:0.86rem; color:#4B5563; margin-bottom:10px;">
+                            A quick field trick taught in land navigation is to hold out a loose fist. Your hand naturally forms the contour shapes of major and minor terrain features:
+                        </p>
+
+                        <!-- SVG Hand Trick Visual Diagram -->
+                        <div class="svg-diagram-card" style="background:#FFFFFF;">
+                            <h5>Visual: Knuckles & Fingers as Terrain Features</h5>
+                            <svg viewBox="0 0 380 150" style="max-width: 100%; height: auto;">
+                                <!-- Hand Outline (Loose Fist) -->
+                                <path d="M 60,110 Q 70,30 110,25 Q 140,20 160,35 Q 190,20 210,35 Q 240,25 260,40 Q 290,30 310,55 Q 330,90 280,120 Z" 
+                                      fill="#FDE68A" stroke="#111111" stroke-width="2.5"/>
+                                
+                                <!-- Knuckle Peaks (Hills) -->
+                                <circle cx="110" cy="25" r="5" fill="#AD0000"/>
+                                <text x="110" y="15" font-size="9" font-weight="bold" text-anchor="middle" fill="#AD0000">1. Hill (Knuckle)</text>
+
+                                <circle cx="160" cy="35" r="5" fill="#AD0000"/>
+                                <circle cx="210" cy="35" r="5" fill="#AD0000"/>
+
+                                <!-- Saddle (Dip between knuckles) -->
+                                <line x1="110" y1="25" x2="160" y2="35" stroke="#334155" stroke-width="2" stroke-dasharray="2,2"/>
+                                <text x="135" y="45" font-size="9" font-weight="bold" text-anchor="middle" fill="#854D0E">2. Saddle (Dip)</text>
+
+                                <!-- Ridge Line (Line across knuckles) -->
+                                <line x1="160" y1="35" x2="260" y2="40" stroke="#15803D" stroke-width="3"/>
+                                <text x="210" y="20" font-size="9" font-weight="bold" text-anchor="middle" fill="#15803D">3. Ridge (Knuckle Line)</text>
+
+                                <!-- Finger Extensions (Spurs) -->
+                                <path d="M 210,35 Q 230,80 230,110" stroke="#1E40AF" stroke-width="2" stroke-dasharray="3,3"/>
+                                <text x="240" y="80" font-size="9" font-weight="bold" fill="#1E40AF">4. Spur (Finger Ridge)</text>
+
+                                <!-- Between Fingers (Draws) -->
+                                <path d="M 185,30 Q 185,80 185,110" stroke="#AD0000" stroke-width="2"/>
+                                <text x="175" y="100" font-size="9" font-weight="bold" text-anchor="end" fill="#AD0000">5. Draw (Gully)</text>
+                            </svg>
+                        </div>
+
+                        <ul style="font-size:0.83rem; padding-left:18px; margin-bottom:0;">
+                            <li><strong>Knuckles = Hills:</strong> Individual high points on terrain.</li>
+                            <li><strong>Dip between Knuckles = Saddle:</strong> A low point on a ridge line between two hills.</li>
+                            <li><strong>Line across Knuckles = Ridge:</strong> A continuous line of connected high ground.</li>
+                            <li><strong>Finger Extension Downward = Spur:</strong> High ground extending outward ($U$-shaped contours point down).</li>
+                            <li><strong>Grooves between Fingers = Draw:</strong> Drainage course between high ground ($V$-shaped contours point up).</li>
+                            <li><strong>Cupped Palm = Depression:</strong> Low area surrounded by higher ground.</li>
+                        </ul>
+                    </div>
+
+                    <h4>All 10 Military Terrain Features (Contour Signatures)</h4>
+                    <p>TC 3-25.26 classifies terrain features into <strong>5 Major</strong>, <strong>3 Minor</strong>, and <strong>2 Supplementary</strong> categories.</p>
+
+                    <div class="terrain-grid">
+                        <!-- 1. HILL -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge major">Major Feature</span>
+                                <h6>1. Hill</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <ellipse cx="60" cy="40" rx="50" ry="32" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <ellipse cx="60" cy="40" rx="35" ry="22" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <ellipse cx="60" cy="40" rx="20" ry="12" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <circle cx="60" cy="40" r="3" fill="#AD0000"/>
+                                </svg>
+                                <p>An area of high ground. Ground slopes down in all directions from the crest.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Closed concentric contour rings.</div>
+                        </div>
+
+                        <!-- 2. RIDGE -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge major">Major Feature</span>
+                                <h6>2. Ridge</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <path d="M 10,40 Q 60,10 110,40 Q 60,70 10,40 Z" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 25,40 Q 60,20 95,40 Q 60,60 25,40 Z" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 40,40 Q 60,30 80,40 Q 60,50 40,40 Z" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                </svg>
+                                <p>A line of high ground with height variations along its crest. Slopes down in sideways directions.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Elongated U/V shape closed rings.</div>
+                        </div>
+
+                        <!-- 3. VALLEY -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge major">Major Feature</span>
+                                <h6>3. Valley</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <path d="M 15,10 L 60,65 L 105,10" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 28,10 L 60,50 L 92,10" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 42,10 L 60,35 L 78,10" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 60,10 L 60,75" stroke="#0284C7" stroke-width="2" stroke-dasharray="3,3"/>
+                                </svg>
+                                <p>A stretch of low land between hills or mountains. High ground on three sides, typically contains water.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: V-shaped contours pointing UPSTREAM (high ground).</div>
+                        </div>
+
+                        <!-- 4. SADDLE -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge major">Major Feature</span>
+                                <h6>4. Saddle</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <circle cx="30" cy="40" r="16" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <circle cx="90" cy="40" r="16" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 10,40 Q 60,18 110,40 Q 60,62 10,40 Z" fill="none" stroke="#854D0E" stroke-width="1.5"/>
+                                </svg>
+                                <p>A dip or low point between two higher peaks along a ridge crest line.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Hourglass / figure-8 contour shape between 2 peaks.</div>
+                        </div>
+
+                        <!-- 5. DEPRESSION -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge major">Major Feature</span>
+                                <h6>5. Depression</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <ellipse cx="60" cy="40" rx="45" ry="28" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <ellipse cx="60" cy="40" rx="28" ry="16" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <!-- Inward Tick Marks -->
+                                    <line x1="15" y1="40" x2="22" y2="40" stroke="#854D0E" stroke-width="2"/>
+                                    <line x1="105" y1="40" x2="98" y2="40" stroke="#854D0E" stroke-width="2"/>
+                                    <line x1="60" y1="12" x2="60" y2="18" stroke="#854D0E" stroke-width="2"/>
+                                    <line x1="60" y1="68" x2="60" y2="62" stroke="#854D0E" stroke-width="2"/>
+                                </svg>
+                                <p>A low point in the ground or sinkhole surrounded by higher ground in all directions.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Closed contour rings with inward tick marks (hachures).</div>
+                        </div>
+
+                        <!-- 6. DRAW -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge minor">Minor Feature</span>
+                                <h6>6. Draw</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <path d="M 20,10 L 60,65 L 100,10" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 35,10 L 60,48 L 85,10" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <text x="60" y="76" font-size="9" font-weight="bold" fill="#AD0000" text-anchor="middle">V-Points To High Ground</text>
+                                </svg>
+                                <p>A small stream course/drainage line with no flat valley floor. Ground rises sharply on both sides.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: V-shaped contour lines pointing TOWARD high ground.</div>
+                        </div>
+
+                        <!-- 7. SPUR -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge minor">Minor Feature</span>
+                                <h6>7. Spur</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <path d="M 20,70 Q 60,10 100,70" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 35,70 Q 60,28 85,70" fill="none" stroke="#854D0E" stroke-width="2"/>
+                                    <text x="60" y="76" font-size="9" font-weight="bold" fill="#AD0000" text-anchor="middle">U-Points To Low Ground</text>
+                                </svg>
+                                <p>A short, continuous sloping tongue of high ground extending outward from a hill or ridge side.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: U/V-shaped contour lines pointing AWAY from high ground.</div>
+                        </div>
+
+                        <!-- 8. CLIFF -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge minor">Minor Feature</span>
+                                <h6>8. Cliff</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <line x1="10" y1="20" x2="110" y2="20" stroke="#854D0E" stroke-width="2"/>
+                                    <line x1="10" y1="35" x2="110" y2="35" stroke="#854D0E" stroke-width="2"/>
+                                    <!-- Converging Cliff Line -->
+                                    <line x1="10" y1="50" x2="110" y2="50" stroke="#AD0000" stroke-width="4"/>
+                                    <!-- Tick marks pointing down -->
+                                    <line x1="20" y1="50" x2="20" y2="60" stroke="#AD0000" stroke-width="2"/>
+                                    <line x1="50" y1="50" x2="50" y2="60" stroke="#AD0000" stroke-width="2"/>
+                                    <line x1="80" y1="50" x2="80" y2="60" stroke="#AD0000" stroke-width="2"/>
+                                    <line x1="110" y1="50" x2="110" y2="60" stroke="#AD0000" stroke-width="2"/>
+                                </svg>
+                                <p>A vertical or near-vertical drop. Contour lines converge into a single line or show tick marks pointing down.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Merged contour lines or hachured drop line.</div>
+                        </div>
+
+                        <!-- 9. CUT -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge supplementary">Supplementary</span>
+                                <h6>9. Cut</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <!-- Road Line middle -->
+                                    <line x1="10" y1="40" x2="110" y2="40" stroke="#111111" stroke-width="3"/>
+                                    <!-- Cut Hachures facing inward toward road -->
+                                    <path d="M 20,20 L 20,32 M 50,20 L 50,32 M 80,20 L 80,32 M 100,20 L 100,32" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 20,60 L 20,48 M 50,60 L 50,48 M 80,60 L 80,48 M 100,60 L 100,48" stroke="#854D0E" stroke-width="2"/>
+                                </svg>
+                                <p>A man-made feature where high ground was cut through to construct a level road or railroad track.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Hachures along road pointing INWARD toward roadbed.</div>
+                        </div>
+
+                        <!-- 10. FILL -->
+                        <div class="terrain-card">
+                            <div>
+                                <span class="terrain-badge supplementary">Supplementary</span>
+                                <h6>10. Fill</h6>
+                                <svg viewBox="0 0 120 80" style="width:100%; height:75px;">
+                                    <!-- Elevated Road Line middle -->
+                                    <line x1="10" y1="40" x2="110" y2="40" stroke="#111111" stroke-width="3"/>
+                                    <!-- Fill Hachures facing outward away from road -->
+                                    <path d="M 20,32 L 20,20 M 50,32 L 50,20 M 80,32 L 80,20 M 100,32 L 100,20" stroke="#854D0E" stroke-width="2"/>
+                                    <path d="M 20,48 L 20,60 M 50,48 L 50,60 M 80,48 L 80,60 M 100,48 L 100,60" stroke="#854D0E" stroke-width="2"/>
+                                </svg>
+                                <p>A man-made elevated embankment built up to carry a road across a low valley or marsh ground.</p>
+                            </div>
+                            <div class="terrain-memory">Signature: Hachures along road pointing OUTWARD away from roadbed.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: QUIZ -->
+                <div id="landnav-quiz-content" style="display:none;">
+                    <h4><i class="fa-solid fa-list-check" style="color:var(--uofl-red)"></i> Test Your Knowledge: Land Nav Quiz</h4>
+                    <p style="margin-bottom: 15px; font-size: 0.88rem; color: var(--text-muted);">
+                        Answer the practical questions below to verify your mastery of military map reading and navigation concepts.
+                    </p>
+
+                    <div class="quiz-container">
+                        <!-- Question 1 -->
+                        <div class="quiz-question-box" id="qbox-1">
+                            <div class="quiz-question-title">1. When reading grid coordinates on a 1:50,000 military map, what is the fundamental rule?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectQuizOption(1, 'A', false)">A) Read Left then Down</div>
+                                <div class="quiz-option" onclick="selectQuizOption(1, 'B', true)">B) Read Right then Up</div>
+                                <div class="quiz-option" onclick="selectQuizOption(1, 'C', false)">C) Read Top then Left</div>
+                            </div>
+                            <div class="quiz-explanation" id="exp-1">✓ Correct! Always move Right along the horizontal axis, then Up along the vertical axis.</div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="quiz-question-box" id="qbox-2">
+                            <div class="quiz-question-title">2. What color represents vegetation with military significance (e.g., woods or forests) on a military map?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectQuizOption(2, 'A', false)">A) Brown</div>
+                                <div class="quiz-option" onclick="selectQuizOption(2, 'B', true)">B) Green</div>
+                                <div class="quiz-option" onclick="selectQuizOption(2, 'C', false)">C) Black</div>
+                            </div>
+                            <div class="quiz-explanation" id="exp-2">✓ Correct! Green represents woods and dense vegetation. White indicates clearings or open fields.</div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="quiz-question-box" id="qbox-3">
+                            <div class="quiz-question-title">3. What procedure is used to find YOUR OWN unknown position by shooting azimuths to 2 known landmarks?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectQuizOption(3, 'A', false)">A) Intersection</div>
+                                <div class="quiz-option" onclick="selectQuizOption(3, 'B', true)">B) Resection</div>
+                                <div class="quiz-option" onclick="selectQuizOption(3, 'C', false)">C) Dead Reckoning</div>
+                            </div>
+                            <div class="quiz-explanation" id="exp-3">✓ Correct! Resection finds YOUR location using back azimuths from 2+ known landmarks. Intersection locates an unknown distant target.</div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="quiz-question-box" id="qbox-4">
+                            <div class="quiz-question-title">4. You shoot an azimuth of 230° to a tower. What is the Back Azimuth?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectQuizOption(4, 'A', false)">A) 410°</div>
+                                <div class="quiz-option" onclick="selectQuizOption(4, 'B', true)">B) 50°</div>
+                                <div class="quiz-option" onclick="selectQuizOption(4, 'C', false)">C) 130°</div>
+                            </div>
+                            <div class="quiz-explanation" id="exp-4">✓ Correct! Since 230° is greater than 180°, subtract 180°: 230 - 180 = 50°.</div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="quiz-question-box" id="qbox-5">
+                            <div class="quiz-question-title">5. Contour lines forming U/V shapes pointing AWAY from high ground represent which terrain feature?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectQuizOption(5, 'A', false)">A) Draw</div>
+                                <div class="quiz-option" onclick="selectQuizOption(5, 'B', true)">B) Spur</div>
+                                <div class="quiz-option" onclick="selectQuizOption(5, 'C', false)">C) Valley</div>
+                            </div>
+                            <div class="quiz-explanation" id="exp-5">✓ Correct! Spur contour lines point DOWN/AWAY from high ground. Draw lines point UP toward high ground.</div>
+                        </div>
+
+                        <button class="btn-submit" onclick="gradeQuiz()" style="margin-top:15px;">
+                            <i class="fa-solid fa-check-double"></i> Check Quiz Results
+                        </button>
+
+                        <div class="quiz-score-banner" id="quizScoreBanner">
+                            <h3 id="scoreText">Your Score: 5/5</h3>
+                            <p id="scoreSubtext" style="font-size:0.88rem; margin-top:4px;">Great work! You are ready for Land Nav Lab.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Guide Modal (Standard Popup for other topics) -->
+    <div class="modal-overlay" id="guideModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Guide Title</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content injected dynamically via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Content Data Store
+        const modalData = {
+            'ftx-details': {
+                title: 'Fall FTX • September 18–20 • TA-14, Fort Knox',
+                content: `
+                    <div class="aft-overview">
+                        <div><strong>September 18–20</strong><span>Fall FTX</span></div>
+                        <div><strong>TA-14</strong><span>Fort Knox</span></div>
+                        <div><strong>0700</strong><span>Depart Black Lot at school</span></div>
+                        <div><strong>All cadets</strong><span>FTX attendance</span></div>
+                    </div>
+                    <h4 style="margin:18px 0 8px;">What you will be doing</h4>
+                    <div class="event-info-grid">
+                        <div><strong>HGAC</strong><p>Training event included during the FTX.</p></div>
+                        <div><strong>O Course</strong><p>Obstacle course training.</p></div>
+                        <div><strong>Land Navigation</strong><p>Use your map, compass, pace count, and land-nav skills.</p></div>
+                        <div><strong>M4 Rifle Qualification</strong><p>Rifle qualification training.</p></div>
+                    </div>
+                    <h4 style="margin:18px 0 8px;">Prepare before you leave</h4>
+                    <div class="ftx-modal-actions">
+                        <button class="dash-btn" onclick="openPackingChecklist()"><i class="fa-solid fa-list-check"></i> Interactive Packing List</button>
+                        <button class="dash-btn secondary" onclick="openModal('ftx-packing')"><i class="fa-solid fa-book-open"></i> FTX Guide</button>
+                        <button class="dash-btn secondary" onclick="openLandNavModule()"><i class="fa-solid fa-compass"></i> Land Nav Prep</button>
+                        <button class="dash-btn secondary" onclick="openGlossary()"><i class="fa-solid fa-spell-check"></i> ROTC Glossary</button>
+                    </div>
+                    <div class="event-callout"><i class="fa-solid fa-circle-info"></i><div><strong>Quick check:</strong> Know your departure time, location, required gear, and the training events before FTX weekend.</div></div>
+                `
+            },
+            'aft-details': {
+                title: 'Army Fitness Test • October 15 • 0500 • Red Track',
+                content: `
+                    <div class="aft-overview">
+                        <div><strong>October 15</strong><span>0500 report</span></div>
+                        <div><strong>Red Track</strong><span>Location</span></div>
+                        <div><strong>All cadets</strong><span>Attendance required</span></div>
+                        <div><strong>Bring</strong><span>Water source</span></div>
+                    </div>
+                    <div class="event-callout" style="margin-top:14px;"><i class="fa-solid fa-shirt"></i><div><strong>Uniform:</strong> Contracted cadets — APFU &nbsp;|&nbsp; Non-contracted cadets — civilian workout attire</div></div>
+                    <h4 style="margin:18px 0 8px;">AFT Events</h4>
+                    <div class="aft-event-cards">
+                        <div class="aft-event-card"><div class="aft-detail-number">01</div><div><h4>3-Repetition Maximum Deadlift</h4><p>Complete three controlled repetitions with the hex bar. Your result is the heaviest weight successfully lifted for 3 reps.</p><span class="event-direction">More weight = more points</span></div></div>
+                        <div class="aft-event-card"><div class="aft-detail-number">02</div><div><h4>Hand-Release Push-Up</h4><p>Complete correctly performed hand-release push-ups. Your result is the number of valid repetitions.</p><span class="event-direction">More reps = more points</span></div></div>
+                        <div class="aft-event-card"><div class="aft-detail-number">03</div><div><h4>Sprint-Drag-Carry</h4><p>Complete the full event and enter your total finish time.</p><span class="event-direction">Faster time = more points</span></div></div>
+                        <div class="aft-event-card"><div class="aft-detail-number">04</div><div><h4>Plank</h4><p>Hold the plank for as long as possible and enter your total hold time.</p><span class="event-direction">Longer hold = more points</span></div></div>
+                        <div class="aft-event-card"><div class="aft-detail-number">05</div><div><h4>2-Mile Run</h4><p>Complete the 2-mile run and enter your finish time.</p><span class="event-direction">Faster time = more points</span></div></div>
+                    </div>
+                    <div class="aft-calculator" style="margin-top:18px;">
+                        <div class="aft-calc-head"><div><h4 style="margin:0 0 4px;">AFT Score Calculator</h4><p style="margin:0;color:var(--text-muted);">Select your age and sex, then enter what you actually did in each event.</p></div></div>
+                        <div class="aft-profile-grid">
+                            <label>Age on test day<select id="aftAge" onchange="updateAFTCalculator()"><option value="17-21">17–21</option><option value="22-26">22–26</option><option value="27-31">27–31</option><option value="32-36">32–36</option><option value="37-41">37–41</option><option value="42-46">42–46</option><option value="47-51">47–51</option><option value="52-56">52–56</option><option value="57-61">57–61</option><option value="62+">62+</option></select></label>
+                            <label>Sex<select id="aftSex" onchange="updateAFTCalculator()"><option value="male">Male</option><option value="female">Female</option></select></label>
+                            <label>Scoring standard<select id="aftStandard" onchange="updateAFTCalculator()"><option value="general">General — 300 total</option><option value="combat">Combat MOS — 350 total</option></select></label>
+                        </div>
+                        <div class="aft-input-grid">
+                            <label>Deadlift (lb)<input id="aftMDL" type="number" min="0" placeholder="Actual weight" oninput="updateAFTCalculator()"></label>
+                            <label>HRP (reps)<input id="aftHRP" type="number" min="0" placeholder="Actual reps" oninput="updateAFTCalculator()"></label>
+                            <label>SDC minutes<input id="aftSDCMin" type="number" min="0" placeholder="Minutes" oninput="updateAFTCalculator()"></label>
+                            <label>SDC seconds<input id="aftSDCSec" type="number" min="0" max="59" placeholder="Seconds" oninput="updateAFTCalculator()"></label>
+                            <label>Plank minutes<input id="aftPLKMin" type="number" min="0" placeholder="Minutes" oninput="updateAFTCalculator()"></label>
+                            <label>Plank seconds<input id="aftPLKSec" type="number" min="0" max="59" placeholder="Seconds" oninput="updateAFTCalculator()"></label>
+                            <label>2-Mile minutes<input id="aft2MRMin" type="number" min="0" placeholder="Minutes" oninput="updateAFTCalculator()"></label>
+                            <label>2-Mile seconds<input id="aft2MRSec" type="number" min="0" max="59" placeholder="Seconds" oninput="updateAFTCalculator()"></label>
+                        </div>
+                        <div id="aftCalcResult" class="aft-calc-result"></div>
+                        <div id="aftScoreTable" class="aft-score-table"></div>
+                        <p class="aft-note">Use the calculator for preparation and planning. Confirm the current scoring table with ROTC cadre before using a result as an official score.</p>
+                    </div>
+                `
+            },
+            'ranger-tactics': {
+                title: 'Ranger Handbook Cheat Sheet: Squad Tactics & OPORDs',
+                content: `
+                    <p>Tactics labs teach leadership under stress. You are not expected to be a master right away, but understanding squad basics will make labs enjoyable.</p>
+
+                    <h4>1. Five-Paragraph OPORD Structure</h4>
+                    <ol>
+                        <li><strong>Situation:</strong> Enemy forces, friendly forces, attachments/detachments.</li>
+                        <li><strong>Mission:</strong> Who, What, When, Where, Why (Clear 1-sentence statement repeated twice).</li>
+                        <li><strong>Execution:</strong> Commander's intent, concept of operation, scheme of maneuver, squad tasks.</li>
+                        <li><strong>Sustainment:</strong> Ammo, food, water, medical evacuation (CASEVAC).</li>
+                        <li><strong>Command & Signal:</strong> Succession of command, radio frequencies, call signs, passwords.</li>
+                    </ol>
+
+                    <h4>2. Squad Formations</h4>
+                    <ul>
+                        <li><strong>Squad Wedge:</strong> Basic movement formation. Good control, flexibility, and 360-degree security.</li>
+                        <li><strong>Squad Column / File:</strong> Used when terrain is restricted or visibility is low (dense vegetation/night).</li>
+                    </ul>
+
+                    <h4>3. Battle Drill 1: React to Contact</h4>
+                    <ul>
+                        <li>Immediately drop to prone, seek cover, and suppress the enemy with targeted fire.</li>
+                        <li>Team Leader calls out distance, direction, and description of enemy.</li>
+                        <li>Squad Leader assesses situation and decides to assault or break contact.</li>
+                    </ul>
+                `
+            },
+            'time-management': {
+                title: 'Time Blocking 101: Balancing UofL Academics & ROTC',
+                content: `
+                    <p>Transitioning from High School to College while managing ROTC demands requires a structured personal system.</p>
+
+                    <h4>1. The 0545 PT Survival Routine</h4>
+                    <ul>
+                        <li><strong>Lay out gear by 2130:</strong> OCPs/PT uniform, socks, boots, water bottle, and backpack.</li>
+                        <li><strong>Hydrate at night:</strong> Drink 16oz of water before sleep to avoid waking up dehydrated.</li>
+                        <li><strong>No SNOOZE button:</strong> Hitting snooze makes waking up harder due to interrupted sleep cycles.</li>
+                    </ul>
+
+                    <h4>2. Time-Blocking Strategy</h4>
+                    <p>Treat ROTC obligations like fixed class blocks in your calendar. Block out mandatory 2-hour study sessions every afternoon between 1300 and 1700 so homework isn't left for late nights.</p>
+
+                    <h4>3. Academic Tutoring & UofL REACH</h4>
+                    <p>Maintain your GPA! Your GPA accounts for a significant portion of your overall Officer Order of Merit List (OML). Utilize UofL REACH tutoring services early at the first sign of confusion in class.</p>
+                `
+            },
+            'ftx-packing': {
+                title: 'First FTX Packing, Gear Layout & Field Mindset',
+                content: `
+                    <p>Your first Field Training Exercise (FTX) is designed to build confidence in living and operating in tactical environments.</p>
+
+                    <h4>1. Essential Packing List Items</h4>
+                    <ul>
+                        <li>Assault Pack & Rucksack (properly adjusted to shoulders/hips)</li>
+                        <li>OCP Uniforms, Boots, and Extra Socks (pack socks in waterproof Ziploc bags!)</li>
+                        <li>Eye protection (APEL approved), gloves, and ear protection</li>
+                        <li>Headlamp with RED lens capability (protects night vision)</li>
+                        <li>Hydration bladder (CamelBak) + canteen</li>
+                        <li>Field notebook (Rite in the Rain) + pen/pencil</li>
+                    </ul>
+
+                    <h4>2. Golden Rules of Field Hygiene</h4>
+                    <ul>
+                        <li>Change socks every time you stop for extended rest to prevent foot rot/blisters.</li>
+                        <li>Use baby wipes for daily cleaning before putting on clean socks/shirts.</li>
+                        <li>Never leave trash or gear behind (LEAVE NO TRACE).</li>
+                    </ul>
+                `
+            },
+            'rotc-acronyms': {
+                title: 'ROTC Glossary',
+                content: `<div id="glossaryModalContent"></div>`
+            }
+        };
+
+        // CST Module Navigation
+        function openCSTModule() {
+            document.getElementById('cstModule').style.display = 'flex';
+            calculateCSTScore();
+        }
+
+        function closeCSTModule() {
+            document.getElementById('cstModule').style.display = 'none';
+        }
+
+        function closeCSTModuleOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeCSTModule();
+            }
+        }
+
+        function switchCSTTab(tab) {
+            document.querySelectorAll('#cstModule .subtab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('subtab-' + tab).classList.add('active');
+
+            document.getElementById('cst-memo-content').style.display = tab === 'cst-memo' ? 'block' : 'none';
+            document.getElementById('cst-recondo-content').style.display = tab === 'cst-recondo' ? 'block' : 'none';
+            document.getElementById('cst-calc-content').style.display = tab === 'cst-calc' ? 'block' : 'none';
+            document.getElementById('cst-roadmap-content').style.display = tab === 'cst-roadmap' ? 'block' : 'none';
+        }
+
+        // CST Score Calculation Logic
+        function calculateCSTScore() {
+            const aftInput = parseFloat(document.getElementById('calc-aft').value) || 300;
+            const confPts = parseFloat(document.getElementById('calc-conf').value) || 0;
+            const marchPts = parseFloat(document.getElementById('calc-marches').value) || 0;
+            const lnExamPct = parseFloat(document.getElementById('calc-ln-exam').value) || 70;
+            const lnPePts = parseFloat(document.getElementById('calc-ln-pe').value) || 0;
+            const brmPts = parseFloat(document.getElementById('calc-brm').value) || 0;
+            const skillsPts = parseFloat(document.getElementById('calc-skills').value) || 0;
+            const lead1Pts = parseFloat(document.getElementById('calc-lead1').value) || 0;
+            const lead2Pts = parseFloat(document.getElementById('calc-lead2').value) || 0;
+            const recondoBonus = parseFloat(document.getElementById('calc-recondo').value) || 0;
+
+            // Formulas from Memo #20
+            let aftPts = 1.0 + (0.070 * (aftInput - 300));
+            if (aftPts < 1) aftPts = 0;
+            if (aftPts > 15) aftPts = 15;
+
+            let lnExamPts = 1.0 + (0.167 * (lnExamPct - 70));
+            if (lnExamPts < 1) lnExamPts = 0;
+            if (lnExamPts > 6) lnExamPts = 6;
+
+            const baseScore = aftPts + confPts + marchPts + lnExamPts + lnPePts + brmPts + skillsPts + lead1Pts + lead2Pts + 2.0; // 2.0 for peer avg baseline
+            const totalScore = (baseScore + recondoBonus).toFixed(1);
+
+            const totalDisplay = document.getElementById('cstCalcTotal');
+            const tierDisplay = document.getElementById('cstCalcTier');
+
+            totalDisplay.innerText = `Projected CST Score: ${totalScore} Pts / 100 (+5 Bonus)`;
+
+            if (totalScore >= 90) {
+                tierDisplay.innerText = "★ Outstanding / High Performing Range (Top National OML Tier)";
+                tierDisplay.style.color = "var(--uofl-gold)";
+            } else if (totalScore >= 75) {
+                tierDisplay.innerText = "✓ Proficient / Competitive Range (Solid Commissioning Standout)";
+                tierDisplay.style.color = "#86EFAC";
+            } else {
+                tierDisplay.innerText = "⚠ Needs Focus - Review Physical & Tactical skill areas to maximize points";
+                tierDisplay.style.color = "#FCA5A5";
+            }
+        }
+
+        // Land Nav Module Navigation
+        function openLandNavModule() {
+            // Keep the Fall FTX popup open underneath this module so closing it returns to FTX.
+            const modal = document.getElementById('landNavModule');
+            if (!modal) return;
+            switchLandNavTab('mapbasics');
+            modal.style.zIndex = '1100';
+            modal.style.display = 'flex';
+        }
+
+        function closeLandNavModule() {
+            const modal = document.getElementById('landNavModule');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function closeModuleOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeLandNavModule();
+            }
+        }
+
+        function switchLandNavTab(tab) {
+            document.querySelectorAll('#landNavModule .subtab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('subtab-' + tab).classList.add('active');
+
+            document.getElementById('landnav-mapbasics-content').style.display = tab === 'mapbasics' ? 'block' : 'none';
+            document.getElementById('landnav-positioning-content').style.display = tab === 'positioning' ? 'block' : 'none';
+            document.getElementById('landnav-route-content').style.display = tab === 'route' ? 'block' : 'none';
+            document.getElementById('landnav-visuals-content').style.display = tab === 'visuals' ? 'block' : 'none';
+            document.getElementById('landnav-quiz-content').style.display = tab === 'quiz' ? 'block' : 'none';
+        }
+
+        // Quiz Logic
+        const quizAnswers = { 1: null, 2: null, 3: null, 4: null, 5: null };
+        const correctAnswers = { 1: 'B', 2: 'B', 3: 'B', 4: 'B', 5: 'B' };
+
+        function selectQuizOption(qNum, optionKey, isCorrect) {
+            quizAnswers[qNum] = optionKey;
+            
+            const qBox = document.getElementById(`qbox-${qNum}`);
+            const options = qBox.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => opt.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+        }
+
+        function gradeQuiz() {
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                const qBox = document.getElementById(`qbox-${i}`);
+                const explanation = document.getElementById(`exp-${i}`);
+
+                if (quizAnswers[i] === correctAnswers[i]) {
+                    score++;
+                    explanation.style.display = 'block';
+                    explanation.style.borderColor = 'var(--success-green)';
+                    explanation.innerText = `✓ Correct! Answer ${correctAnswers[i]} is right.`;
+                } else if (quizAnswers[i] !== null) {
+                    explanation.style.display = 'block';
+                    explanation.style.borderColor = 'var(--error-red)';
+                    explanation.innerText = `✗ Incorrect. The correct answer was ${correctAnswers[i]}.`;
+                }
+            }
+
+            const banner = document.getElementById('quizScoreBanner');
+            const scoreText = document.getElementById('scoreText');
+            const scoreSubtext = document.getElementById('scoreSubtext');
+
+            banner.style.display = 'block';
+            scoreText.innerText = `Your Score: ${score}/5`;
+            
+            if (score === 5) {
+                scoreSubtext.innerText = "Outstanding! You scored 100%. Ready for Land Nav Lab!";
+            } else if (score >= 3) {
+                scoreSubtext.innerText = "Good job! Review the modules tab to master missed questions.";
+            } else {
+                scoreSubtext.innerText = "Keep practicing! Review the Map & Compass guide tabs and try again.";
+            }
+        }
+
+        // Filter Category Tabs
+        function filterCategory(category, element) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            const items = document.querySelectorAll('.resource-item');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Live Search Filter
+        function searchResources() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.resource-item');
+
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(input)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Calculate 100m Pace Count
+        function calculatePace() {
+            const paces = parseFloat(document.getElementById('paceInput').value);
+            const targetMeters = parseFloat(document.getElementById('distInput').value);
+            const resultBox = document.getElementById('paceResult');
+
+            if (isNaN(paces) || paces <= 0) {
+                resultBox.innerText = 'Enter paces (100m) to calculate';
+                return;
+            }
+
+            const totalPaces = Math.round((paces / 100) * targetMeters);
+            resultBox.innerText = `Target: ${totalPaces} Paces for ${targetMeters}m`;
+        }
+
+        function openFTXModal(){
+            // Start a fresh event popup from the homepage.
+            guideModalStack.length = 0;
+            openModal('ftx-details');
+        }
+
+        // Modal Functionality (for standard popups). A child guide can be opened from
+        // the Fall FTX popup and will restore the FTX popup when it is closed.
+        const guideModalStack = [];
+
+        function openModal(guideKey) {
+            const data = modalData[guideKey];
+            if (!data) return;
+
+            const modal = document.getElementById('guideModal');
+            const wasOpen = modal.style.display === 'flex';
+            if (wasOpen) {
+                guideModalStack.push({
+                    title: document.getElementById('modalTitle').innerText,
+                    body: document.getElementById('modalBody').innerHTML
+                });
+            }
+
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalBody').innerHTML = data.content;
+            modal.style.zIndex = '1000';
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('guideModal');
+            if (guideModalStack.length) {
+                const previous = guideModalStack.pop();
+                document.getElementById('modalTitle').innerText = previous.title;
+                document.getElementById('modalBody').innerHTML = previous.body;
+                modal.style.zIndex = '1000';
+                modal.style.display = 'flex';
+                return;
+            }
+            modal.style.display = 'none';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        }
+
+        // Interactive FTX Packing Checklist
+        const packingSections = {
+            "Worn": ["OCP complete", "Boots", "Patrol cap", "Green socks", "Green T-shirt", "Rigger belt", "Watch", "CAC / driver's license", "ID tags", "2 pens", "Notebook / paper", "FLC", "2 full canteens", "Eye protection", "Gloves", "Ear protection"],
+            "Large Ruck": ["Assault pack", "Sleeping kit", "Wet weather top", "Wet weather bottom", "Fleece cap", "Camo stick", "Poncho", "4 pairs socks", "2 green T-shirts", "Boots", "OCPs", "CamelBak", "Wet weather bag", "Reflective / PT belt", "3 underwear", "Towel", "Whistle", "Headlamp with red lens", "Compass", "Protractor"]
+        };
+        function buildPackingChecklist(){
+            const container=document.getElementById('packingListContainer'); if(!container || container.dataset.built) return;
+            let html=''; let i=0;
+            Object.entries(packingSections).forEach(([section,items])=>{
+                html += `<div class="packing-section-title">${section}</div><div class="packing-grid">`;
+                items.forEach(item=>{ const id='pack-'+i++; html += `<label class="packing-item" id="${id}-label"><input type="checkbox" data-pack-id="${id}" onchange="updatePackingChecklist(this)"> ${item}</label>`; });
+                html += '</div>';
+            });
+            container.innerHTML=html; container.dataset.built='true'; loadPackingState();
+        }
+        function openPackingChecklist(){
+            // Open above the Fall FTX popup; closing this returns directly to the FTX details.
+            buildPackingChecklist();
+            const modal = document.getElementById('packingChecklist');
+            if (!modal) return;
+            modal.style.zIndex = '1100';
+            modal.style.display = 'flex';
+            updatePackingCount();
+        }
+        function closePackingChecklist(){
+            const modal = document.getElementById('packingChecklist');
+            if (modal) modal.style.display='none';
+        }
+        function closePackingOnOverlay(e){ if(e.target.classList.contains('modal-overlay')) closePackingChecklist(); }
+        function updatePackingChecklist(cb){
+            const label=document.getElementById(cb.dataset.packId+'-label'); label.classList.toggle('checked',cb.checked); savePackingState(); updatePackingCount();
+        }
+        function updatePackingCount(){
+            const boxes=document.querySelectorAll('#packingListContainer input[type=checkbox]'); const checked=[...boxes].filter(x=>x.checked).length; const total=boxes.length;
+            document.getElementById('packingCount').innerText=`${checked} of ${total} items checked`;
+            document.getElementById('packingProgressBar').style.width=(total ? (checked/total*100) : 0)+'%';
+        }
+        function savePackingState(){ const state={}; document.querySelectorAll('#packingListContainer input[type=checkbox]').forEach(x=>state[x.dataset.packId]=x.checked); localStorage.setItem('rotcPackingChecklist',JSON.stringify(state)); }
+        function loadPackingState(){ try{ const state=JSON.parse(localStorage.getItem('rotcPackingChecklist')||'{}'); document.querySelectorAll('#packingListContainer input[type=checkbox]').forEach(x=>{x.checked=!!state[x.dataset.packId]; document.getElementById(x.dataset.packId+'-label').classList.toggle('checked',x.checked);}); }catch(e){} updatePackingCount(); }
+        function resetPackingChecklist(){ localStorage.removeItem('rotcPackingChecklist'); document.querySelectorAll('#packingListContainer input[type=checkbox]').forEach(x=>{x.checked=false; document.getElementById(x.dataset.packId+'-label').classList.remove('checked');}); updatePackingCount(); }
+
+        function openPrepareSection(){
+            const details=document.getElementById('resource-library');
+            if(details) details.open=true;
+            setTimeout(()=>document.getElementById('resource-library')?.scrollIntoView({behavior:'smooth',block:'start'}),50);
+        }
+
+        const aftThresholds = {
+          "17-21": {male:{MDL:[340,300,250,200,150],HRP:[58,46,37,28,15],SDC:[89,103,113,123,148],PLK:[220,188,155,122,90],"2MR":[802,939,1033,1115,1197]}, female:{MDL:[220,180,150,140,120],HRP:[53,32,23,18,11],SDC:[115,136,148,161,195],PLK:[220,188,155,122,90],"2MR":[960,1075,1170,1266,1375]}},
+          "22-26": {male:{MDL:[350,300,250,190,150],HRP:[61,48,37,26,14],SDC:[90,103,113,125,151],PLK:[215,183,150,118,85],"2MR":[805,938,1028,1103,1185]}, female:{MDL:[230,190,160,140,120],HRP:[50,33,23,16,11],SDC:[115,135,149,163,195],PLK:[215,183,150,118,85],"2MR":[930,1064,1165,1260,1365]}},
+          "27-31": {male:{MDL:[350,300,250,190,150],HRP:[62,48,37,26,14],SDC:[90,105,115,126,152],PLK:[210,178,145,112,80],"2MR":[805,938,1041,1103,1185]}, female:{MDL:[240,190,160,140,120],HRP:[48,33,23,16,11],SDC:[115,136,149,163,195],PLK:[210,178,145,112,80],"2MR":[930,1064,1185,1260,1365]}},
+          "32-36": {male:{MDL:[350,300,250,190,140],HRP:[60,47,36,26,13],SDC:[93,108,118,130,156],PLK:[205,173,140,107,75],"2MR":[822,950,1036,1110,1244]}, female:{MDL:[230,180,160,140,120],HRP:[47,32,23,16,11],SDC:[119,140,154,167,202],PLK:[205,173,140,107,75],"2MR":[948,1101,1193,1273,1370]}},
+          "37-41": {male:{MDL:[350,300,250,190,140],HRP:[59,46,35,24,12],SDC:[96,112,122,134,161],PLK:[200,167,135,102,70],"2MR":[822,961,1053,1115,1244]}, female:{MDL:[220,180,150,140,120],HRP:[43,30,22,16,10],SDC:[122,145,158,172,207],PLK:[200,167,135,102,70],"2MR":[951,1105,1197,1276,1379]}},
+          "42-46": {male:{MDL:[350,290,250,190,140],HRP:[57,44,34,23,11],SDC:[100,116,127,140,165],PLK:[200,167,135,102,70],"2MR":[845,975,1067,1135,1324]}, female:{MDL:[210,170,150,130,120],HRP:[40,29,21,15,10],SDC:[129,150,164,178,222],PLK:[200,167,135,102,70],"2MR":[960,1117,1210,1290,1395]}},
+          "47-51": {male:{MDL:[340,290,240,190,140],HRP:[55,42,32,22,11],SDC:[105,122,134,147,173],PLK:[200,167,135,102,70],"2MR":[870,999,1092,1170,1324]}, female:{MDL:[200,170,150,130,120],HRP:[38,28,20,15,10],SDC:[131,157,170,185,231],PLK:[200,167,135,102,70],"2MR":[990,1143,1234,1305,1410]}},
+          "52-56": {male:{MDL:[330,280,230,180,140],HRP:[51,40,30,21,10],SDC:[112,130,143,155,180],PLK:[200,167,135,102,70],"2MR":[909,1046,1140,1220,1370]}, female:{MDL:[190,160,150,130,120],HRP:[36,26,19,14,10],SDC:[138,164,178,199,243],PLK:[200,167,135,102,70],"2MR":[1019,1187,1279,1358,1440]}},
+          "57-61": {male:{MDL:[250,180,170,150,140],HRP:[46,29,18,13,10],SDC:[118,137,149,163,192],PLK:[200,167,135,102,70],"2MR":[928,1097,1185,1260,1416]}, female:{MDL:[170,150,140,130,120],HRP:[24,15,13,12,10],SDC:[146,174,187,216,288],PLK:[200,167,135,102,70],"2MR":[1038,1226,1311,1391,1488]}},
+          "62+": {male:{MDL:[230,170,160,150,140],HRP:[43,26,17,12,10],SDC:[129,136,152,169,196],PLK:[200,167,135,102,70],"2MR":[928,1097,1185,1260,1416]}, female:{MDL:[170,150,140,130,120],HRP:[24,15,13,12,10],SDC:[146,174,187,216,288],PLK:[200,167,135,102,70],"2MR":[1038,1226,1319,1400,1500]}}
+        };
+        const aftPoints=[100,90,80,70,60];
+        const aftEventInfo={
+          MDL:{name:'3-Repetition Maximum Deadlift',unit:'lb',desc:'Complete three controlled repetitions with the hex bar. Enter the heaviest weight you successfully lifted for 3 reps.'},
+          HRP:{name:'Hand-Release Push-Up',unit:'reps',desc:'Enter the number of correctly performed hand-release push-ups completed in the event.'},
+          SDC:{name:'Sprint-Drag-Carry',unit:'time',desc:'Enter your total finish time. Faster is better.'},
+          PLK:{name:'Plank',unit:'time',desc:'Enter your total hold time. Longer is better.'},
+          '2MR':{name:'2-Mile Run',unit:'time',desc:'Enter your finish time. Faster is better.'}
+        };
+        let selectedAFTEvent='OVERVIEW';
+        const aftOverviewHTML = `
+          <div class="aft-overview">
+            <div><strong>5 events</strong><span>Each event is scored separately</span></div>
+            <div><strong>60 points</strong><span>Minimum score per event</span></div>
+            <div><strong>300 points</strong><span>General standard total</span></div>
+            <div><strong>350 points</strong><span>Combat MOS standard total</span></div>
+          </div>
+          <h4 style="margin:16px 0 6px;">How to use this page</h4>
+          <p style="margin:0;color:var(--text-muted);font-size:.82rem;line-height:1.5;">Start with the event tabs above. Each tab gives you the event name, what you are doing, the result you enter in the calculator, and the direction that earns more points. When you are done, open <strong>Score Calculator</strong> to enter your actual results.</p>
+          <p class="aft-nav-note"><i class="fa-solid fa-arrow-right"></i> Tip: You can move through the tabs without opening separate popups.</p>`;
+
+        function selectAFTEvent(key,button){
+          selectedAFTEvent=key;
+          document.querySelectorAll('.aft-event-tab').forEach(b=>{
+            b.classList.remove('active');
+            b.setAttribute('aria-selected','false');
+          });
+          if(button){ button.classList.add('active'); button.setAttribute('aria-selected','true'); }
+          renderAFTEventDetail();
+        }
+        function renderAFTEventDetail(){
+          const el=document.getElementById('aftEventDetail');
+          const calc=document.getElementById('aftCalculatorPanel');
+          if(!el)return;
+          if(selectedAFTEvent==='CALC'){
+            el.style.display='none';
+            if(calc){ calc.style.display='block'; updateAFTCalculator(); }
+            return;
+          }
+          if(calc) calc.style.display='none';
+          el.style.display='block';
+          if(selectedAFTEvent==='OVERVIEW'){ el.innerHTML=aftOverviewHTML; return; }
+          const info=aftEventInfo[selectedAFTEvent];
+          const number={MDL:'01',HRP:'02',SDC:'03',PLK:'04','2MR':'05'}[selectedAFTEvent];
+          const direction={MDL:'More weight = more points',HRP:'More repetitions = more points',SDC:'Faster time = more points',PLK:'Longer hold = more points','2MR':'Faster time = more points'}[selectedAFTEvent];
+          const entry={MDL:'Enter weight lifted in pounds.',HRP:'Enter completed hand-release push-up repetitions.',SDC:'Enter your total sprint-drag-carry time.',PLK:'Enter your total plank hold time.','2MR':'Enter your 2-mile finish time.'}[selectedAFTEvent];
+          el.innerHTML=`<div><span class="aft-detail-number">${number}</span><div style="flex:1"><h4>${info.name}</h4><p>${info.desc}</p><div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px"><div style="padding:10px;background:#f7f8fa;border-radius:8px"><strong style="font-size:.72rem">What to enter</strong><p style="margin-top:3px">${entry}</p></div><div style="padding:10px;background:#f7f8fa;border-radius:8px"><strong style="font-size:.72rem">Scoring direction</strong><p style="margin-top:3px">${direction}</p></div></div></div></div>`;
+        }
+        function updateAFTCalculator(){
+          const age=document.getElementById('aftAge')?.value || '17-21';
+          const sex=document.getElementById('aftSex')?.value || 'male';
+          const standard=document.getElementById('aftStandard')?.value || 'general';
+          const column=standard==='combat'?'male':sex;
+          const t=aftThresholds[age][column];
+          const mdl=document.getElementById('aftMDL')?.value; const hrp=document.getElementById('aftHRP')?.value;
+          const sdc=(document.getElementById('aftSDCMin')?.value!==''||document.getElementById('aftSDCSec')?.value!=='')?timeToSec(document.getElementById('aftSDCMin')?.value,document.getElementById('aftSDCSec')?.value):null;
+          const plk=(document.getElementById('aftPLKMin')?.value!==''||document.getElementById('aftPLKSec')?.value!=='')?timeToSec(document.getElementById('aftPLKMin')?.value,document.getElementById('aftPLKSec')?.value):null;
+          const run=(document.getElementById('aft2MRMin')?.value!==''||document.getElementById('aft2MRSec')?.value!=='')?timeToSec(document.getElementById('aft2MRMin')?.value,document.getElementById('aft2MRSec')?.value):null;
+          const raw={MDL:mdl===''?null:Number(mdl),HRP:hrp===''?null:Number(hrp),SDC:sdc,PLK:plk,'2MR':run};
+          const scores=Object.fromEntries(Object.keys(raw).map(k=>[k,scoreAFTEvent(k,raw[k],t[k])]));
+          const entered=Object.values(scores).filter(v=>v!==null); const total=entered.reduce((a,b)=>a+b,0);
+          const allEntered=entered.length===5; const minTotal=standard==='combat'?350:300; const eventFail=Object.values(scores).some(v=>v!==null&&v<60);
+          const result=document.getElementById('aftCalcResult'); if(!result)return;
+          const min60={MDL:`${t.MDL[4]} lb`,HRP:`${t.HRP[4]} reps`,SDC:formatTime(t.SDC[4]),PLK:formatTime(t.PLK[4]),'2MR':formatTime(t['2MR'][4])};
+          let html=`<div class="aft-result-top"><strong>${allEntered?total+' / 500':'Enter all 5 events'}</strong><span>${allEntered?(eventFail||total<minTotal?'FAIL':'PASS'):'Waiting for results'}</span></div><div class="aft-result-sub">Profile: ${age} • ${standard==='combat'?'Combat MOS / sex-neutral':(sex==='male'?'Male':'Female')} • Minimum: 60 per event + ${minTotal} total</div>`;
+          const labels={MDL:'Deadlift',HRP:'HRP',SDC:'SDC',PLK:'Plank','2MR':'2-Mile Run'};
+          html+='<div class="aft-score-rows">';
+          Object.keys(labels).forEach(k=>{ const v=scores[k]; html+=`<div><span>${labels[k]}</span><strong>${v===null?'—':v+' pts'}</strong><small>60-point minimum: ${min60[k]}</small></div>`; });
+          html+='</div>';
+          result.innerHTML=html;
+          const table=document.getElementById('aftScoreTable');
+          const display=k=>k==='SDC'||k==='2MR'||k==='PLK'?formatTime(t[k][0]) : t[k][0];
+          table.innerHTML=`<div class="aft-table-title">Selected profile benchmarks</div><table><thead><tr><th>Event</th><th>60</th><th>70</th><th>80</th><th>90</th><th>100</th></tr></thead><tbody>${Object.keys(labels).map(k=>`<tr><td>${labels[k]}</td>${[4,3,2,1,0].map(i=>`<td>${k==='MDL'?t[k][i]+' lb':k==='HRP'?t[k][i]+' reps':formatTime(t[k][i])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+        }
+        function openAFTModal(){ openModal('aft-details'); setTimeout(()=>{updateAFTCalculator();},50); }
+
+        const glossaryTerms=[
+          ['MS1','Military Science 1','First-year ROTC cadet.'],['MS2','Military Science 2','Second-year ROTC cadet.'],['MS3','Military Science 3','Third-year ROTC cadet; advanced course and leadership-focused year.'],['MS4','Military Science 4','Fourth-year ROTC cadet preparing to commission.'],['Cadre','Cadre','ROTC officers and NCOs who run and teach the program.'],['PMS','Professor of Military Science','The senior Army officer responsible for the ROTC program.'],['APMS','Assistant Professor of Military Science','ROTC officer who supports instruction, training, and cadet development.'],['AFT','Army Fitness Test','Five-event Army fitness assessment: deadlift, hand-release push-up, sprint-drag-carry, plank, and 2-mile run.'],['FTX','Field Training Exercise','Training conducted in a field environment rather than a classroom.'],['CST','Cadet Summer Training','Army ROTC summer training at Fort Knox.'],['LTX','Leadership Training Exercise','ROTC field training focused on leadership and tactical tasks.'],['OPORD','Operations Order','Five-paragraph order used to communicate a mission and how it will be executed.'],['WARNO','Warning Order','Early notification that prepares a unit for an upcoming operation.'],['FRAGO','Fragmentary Order','An abbreviated order used to change or update an existing order.'],['AAR','After Action Review','Structured discussion after training to identify what happened, what worked, and what should improve.'],['TLP','Troop Leading Procedures','A sequence leaders use to plan and prepare for a mission.'],['PCC','Pre-Combat Checks','Checks of equipment and personnel before an operation.'],['PCI','Pre-Combat Inspection','Leader inspection to verify personnel and equipment are ready.'],['MGRS','Military Grid Reference System','Coordinate system used to identify locations on a map.'],['Azimuth','Azimuth','A direction measured in degrees from north.'],['Back Azimuth','Back Azimuth','The direction 180 degrees opposite an azimuth.'],['Resection','Resection','Land-navigation technique using known terrain features or points to determine your location.'],['Intersection','Intersection','Land-navigation technique using lines from known points to locate an unknown point.'],['Pace Count','Pace Count','Number of steps needed to cover a known distance, normally used with a 100-meter pace count.'],['OIC','Officer in Charge','Officer responsible for a task, event, or organization.'],['NCOIC','Noncommissioned Officer in Charge','NCO responsible for leading or managing a task or section.'],['CO','Company Commander','Officer responsible for a company-sized organization.'],['XO','Executive Officer','Second-in-command who helps manage company operations and administration.'],['1SG','First Sergeant','Senior enlisted leader of a company.'],['PL','Platoon Leader','Officer responsible for leading a platoon.'],['PSG','Platoon Sergeant','Senior NCO supporting the platoon leader and leading platoon-level Soldiers.'],['SL','Squad Leader','NCO responsible for leading a squad.'],['TL','Team Leader','Leader responsible for a small team within a squad.'],['OML','Order of Merit List','Ranking used to compare cadets for certain Army ROTC opportunities and selections.'],['RECONDO','Reconnaissance Commando','ROTC/CST recognition associated with meeting specified performance and field-training standards.']
+        ];
+        function openGlossary(){ openModal('rotc-acronyms'); setTimeout(()=>renderGlossary(''),30); }
+        function renderGlossary(filter){
+          const host=document.getElementById('glossaryModalContent'); if(!host)return;
+          const q=(filter||'').toLowerCase(); const terms=glossaryTerms.filter(t=>t.join(' ').toLowerCase().includes(q));
+          host.innerHTML=`<div class="glossary-search"><i class="fa-solid fa-magnifying-glass"></i><input id="glossarySearch" value="${escapeHtml(filter||'')}" oninput="renderGlossary(this.value)" placeholder="Search terms like OPORD, Land Nav, PL, AFT..."></div><p class="glossary-count">${terms.length} term${terms.length===1?'':'s'} found</p><div class="glossary-grid">${terms.map(t=>`<article class="glossary-card"><div><strong>${t[0]}</strong><span>${t[1]}</span></div><p>${t[2]}</p></article>`).join('')||'<p>No terms found. Try a different search.</p>'}</div>`;
+        }
+
+        function escapeHtml(value){ const div=document.createElement('div'); div.textContent=value; return div.innerHTML; }
+
+        // Handle Form Submission
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const questionText = document.getElementById('question').value;
+            if (questionText.trim() === '') return;
+
+            const category = document.getElementById('topic').value;
+            const board = document.getElementById('qa-board');
+            const empty = board.querySelector('.qa-empty'); if (empty) empty.remove();
+            const item = document.createElement('div');
+            item.className = 'qa-item';
+            item.innerHTML = `<div class="qa-question"><i class="fa-solid fa-circle-question"></i><span>Q: ${escapeHtml(questionText)}</span></div><div class="qa-answer" style="border-left-color:var(--uofl-gold-dark);"><strong>Status:</strong> Awaiting leadership response</div><div class="qa-meta"><span>Topic: ${escapeHtml(category)}</span><span>Submitted by Anonymous Cadet</span></div>`;
+            board.prepend(item);
+
+            const alert = document.getElementById('success-alert');
+            alert.style.display = 'block';
+            document.getElementById('anonymous-form').reset();
+
+            // Hide alert after 4 seconds
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
